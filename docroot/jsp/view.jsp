@@ -48,8 +48,12 @@
 	 	<%
 	 	for(Worker w: ls){
 	 		%>
+	 		<portlet:renderURL var="editWorkerURL">
+		    	<portlet:param name="mvcPath" value="/jsp/edit.jsp" />
+		    	<portlet:param name="workerId" value="<%= Integer.toString( w.getWorkerId() ) %>" />
+			</portlet:renderURL>
 	 		<tr>
-	 			<td><%= w.getName() %></td> <td><%= w.getSurname() %></td> <td><%= w.getEmail() %></td>
+	 			<td><%= w.getName() %></td> <td><%= w.getSurname() %></td> <td><%= w.getEmail() %></td> <td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
 	 		</tr>
 	 		<%
 	 	}
