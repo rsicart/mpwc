@@ -41,6 +41,6 @@ package com.mpwc;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class MpwcPortlet extends MVCPortlet {
- 
+
 
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.1.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_1_0.dtd">
+<service-builder package-path="com.mpwc">
+	<author>rsicart</author>
+	<namespace>tools</namespace>
+
+	<entity name="Worker" table="tbl_mpwc_workers" local-service="true" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="workerId" type="integer" primary="true" />
+		
+		<!-- Group instance --> 
+
+		<column name="groupId" type="long" /> 
+		
+		<!-- Audit fields --> 
+		
+		<column name="companyId" type="long" /> 
+		<column name="userId" type="long" /> 
+		<column name="userName" type="String" />	
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		
+		<column name="nif" type="String" />
+		<column name="name" type="String" />
+		<column name="surname" type="String" />
+		<column name="email" type="String" />
+		<column name="phone" type="String" />
+		<column name="comments" type="String" />
+		<column name="status" type="integer" />
+
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="workerId" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="Nif" return-type="Collection">
+			<finder-column name="nif" />
+		</finder>
+		
+		<finder name="Email" return-type="Collection">
+			<finder-column name="email" />
+		</finder>
+		<finder name="Status" return-type="Collection">
+			<finder-column name="status" />
+		</finder>
+		<finder name="Name" return-type="Collection">
+			<finder-column name="name" />
+		</finder>
+		<finder name="Surname" return-type="Collection">
+			<finder-column name="surname" />
+		</finder>
+	</entity>
+	
+</service-builder>
