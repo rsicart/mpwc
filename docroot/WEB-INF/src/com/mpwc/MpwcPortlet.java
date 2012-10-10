@@ -38,9 +38,23 @@ POSSIBILITY OF SUCH DAMAGE.
 
 package com.mpwc;
 
+import java.io.IOException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
+
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class MpwcPortlet extends MVCPortlet {
 
+
+    public void render(ActionRequest actionRequest, ActionResponse actionResponse)
+    	       throws IOException, PortletException {
+    
+    	//TODO: add some code
+
+    }
 
 }
