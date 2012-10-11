@@ -5,7 +5,7 @@
 	<import class="com.mpwc.model.Worker" />
 	<class name="com.mpwc.model.impl.WorkerImpl" table="tbl_mpwc_workers">
 		<cache usage="read-write" />
-		<id name="workerId" type="int">
+		<id name="workerId" type="long">
 			<generator class="sequence">
 				<param name="sequence">seq_worker_workerid</param>
 			</generator>

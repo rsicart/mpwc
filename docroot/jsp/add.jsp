@@ -14,10 +14,30 @@
 </portlet:actionURL>
 
 <aui:form action="<%= addWorkerURL %>" method="post">
-    <aui:input label="nom" name="nom" type="text" value="" />
-    <aui:input label="cognoms" name="cognoms" type="text" value="" />
-    <aui:input label="email" name="email" type="text" value="" />
-    <aui:button type="submit" />
+	
+	<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
+
+	<aui:fieldset>
+		<aui:input label="name" name="name" type="text" value="" />
+	    <aui:input label="surname" name="surname" type="text" value="" />
+	</aui:fieldset>
+   <aui:fieldset>
+	    <aui:input label="nif" name="nif" type="text" value="" />
+	    <aui:input label="email" name="email" type="text" value="" />
+	    
+   </aui:fieldset>
+   <aui:fieldset>
+		<aui:input label="phone" name="phone" type="text" value="" />
+		<aui:select name="status">
+			<aui:option label="Active" value="1"></aui:option>
+			<aui:option label="Inactive" value="2"></aui:option>
+			<aui:option label="Bloqued" value="3"></aui:option>
+		</aui:select>
+   </aui:fieldset>
+   <aui:fieldset>
+   		<aui:input type="textarea" name="comments" value="" />
+   </aui:fieldset>
+   <aui:button type="submit" />
 </aui:form>
 
 

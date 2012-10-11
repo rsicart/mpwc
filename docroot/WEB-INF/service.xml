@@ -8,7 +8,7 @@
 
 		<!-- PK fields -->
 
-		<column name="workerId" type="int" primary="true" id-type="sequence" id-param="seq_worker_workerid"/>
+		<column name="workerId" type="long" primary="true" id-type="sequence" id-param="seq_worker_workerid"/>
 		
 		<!-- Group instance --> 
 

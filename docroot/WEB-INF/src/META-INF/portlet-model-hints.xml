@@ -2,7 +2,7 @@
 
 <model-hints>
 	<model name="com.mpwc.model.Worker">
-		<field name="workerId" type="int" />
+		<field name="workerId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />

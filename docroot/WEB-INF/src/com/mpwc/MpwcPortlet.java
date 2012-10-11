@@ -39,20 +39,56 @@ POSSIBILITY OF SUCH DAMAGE.
 package com.mpwc;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 
+import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import com.mpwc.model.Worker;
+import com.mpwc.service.WorkerLocalServiceUtil;
 
 public class MpwcPortlet extends MVCPortlet {
 
     public void addWorker(ActionRequest actionRequest, ActionResponse actionResponse)
   	       throws IOException, PortletException{
     	
-    	//TODO: add some code
+    	String name = actionRequest.getParameter("name");
+    	String surname = actionRequest.getParameter("surname");
+    	String nif = actionRequest.getParameter("nif");
+    	String email = actionRequest.getParameter("email");
+    	String phone = actionRequest.getParameter("phone");
+    	int status = Integer.parseInt(actionRequest.getParameter("status"));
+    	String comments = actionRequest.getParameter("comments");
+    	Date now = new Date();
+    	
+    	if(name != null && surname != null && email != null && nif != null){
+    		
+	    	Worker w;
+			try {
+				long workerId = CounterLocalServiceUtil.increment(Worker.class.getName());
+				w = WorkerLocalServiceUtil.createWorker(workerId);
+				w.setName(name);
+		    	w.setSurname(surname);
+		    	w.setNif(nif);
+		    	w.setEmail(email);
+		    	if( phone != null ){ w.setPhone(phone); }
+		    	if( status > 0 ){ w.setStatus(status); }
+		    	w.setCreateDate(now);
+		    	WorkerLocalServiceUtil.addWorker(w);
+			} catch (SystemException e) {
+				System.out.println("addWorker exception:" + e.getMessage());
+			}
+
+    	}
+
+    	// gracefully redirecting to the default portlet view
+    	String redirectURL = actionRequest.getParameter("redirectURL");
+    	actionResponse.sendRedirect(redirectURL);
      	
      }
 

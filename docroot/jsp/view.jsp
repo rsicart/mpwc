@@ -41,24 +41,39 @@
  	}
  	else{
  	%>
-	 	<table>
+	 	<table border="1" width="80%">
 	 	<tr>
-	 		<td><b>Name</b></td><td><b>Surame</b></td><td><b>Email</b></td>
+	 		<td><b>Name</b></td>
+	 		<td><b>Surame</b></td>
+	 		<td><b>Nif</b></td>
+	 		<td><b>Email</b></td>
+	 		<td><b>Phone</b></td>
+	 		<td><b></b></td>
 	 	</tr>
 	 	<%
 	 	for(Worker w: ls){
 	 		%>
 	 		<portlet:renderURL var="editWorkerURL">
 		    	<portlet:param name="mvcPath" value="/jsp/edit.jsp" />
-		    	<portlet:param name="workerId" value="<%= Integer.toString( w.getWorkerId() ) %>" />
+		    	<portlet:param name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" />
 			</portlet:renderURL>
 	 		<tr>
-	 			<td><%= w.getName() %></td> <td><%= w.getSurname() %></td> <td><%= w.getEmail() %></td> <td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
+	 			<td><%= w.getName() %></td> 
+	 			<td><%= w.getSurname() %></td> 
+	 			<td><%= w.getNif() %></td>
+	 			<td><%= w.getEmail() %></td>
+	 			<td><%= w.getPhone() %></td>
+	 			<td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
 	 		</tr>
 	 		<%
 	 	}
 	 	%>
 	 	</table>
+	 	
+	 	<portlet:renderURL var="addNewWorkerURL">
+		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
+		</portlet:renderURL>	
+		<p><a href="<%= addNewWorkerURL %>">Add</a>a new worker.</p>
  	<%
  	}
  } catch (Exception e) {
