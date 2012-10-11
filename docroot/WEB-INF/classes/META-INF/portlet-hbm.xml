@@ -6,7 +6,9 @@
 	<class name="com.mpwc.model.impl.WorkerImpl" table="tbl_mpwc_workers">
 		<cache usage="read-write" />
 		<id name="workerId" type="int">
-			<generator class="assigned" />
+			<generator class="sequence">
+				<param name="sequence">seq_worker_workerid</param>
+			</generator>
 		</id>
 		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />

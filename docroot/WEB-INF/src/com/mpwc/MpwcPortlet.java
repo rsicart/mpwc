@@ -49,6 +49,12 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class MpwcPortlet extends MVCPortlet {
 
+    public void addWorker(ActionRequest actionRequest, ActionResponse actionResponse)
+  	       throws IOException, PortletException{
+    	
+    	//TODO: add some code
+     	
+     }
 
     public void render(ActionRequest actionRequest, ActionResponse actionResponse)
     	       throws IOException, PortletException {
@@ -56,5 +62,7 @@ public class MpwcPortlet extends MVCPortlet {
     	//TODO: add some code
 
     }
+    
+
 
 }

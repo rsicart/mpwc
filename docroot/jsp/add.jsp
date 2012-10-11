@@ -9,7 +9,17 @@
 
 <p><b>Add worker</b></p>
 
-<!-- //TODO: add some code --> 
+<portlet:actionURL var="addWorkerURL" name="addWorker">
+    <portlet:param name="mvcPath" value="/jsp/view.jsp" />
+</portlet:actionURL>
+
+<aui:form action="<%= addWorkerURL %>" method="post">
+    <aui:input label="nom" name="nom" type="text" value="" />
+    <aui:input label="cognoms" name="cognoms" type="text" value="" />
+    <aui:input label="email" name="email" type="text" value="" />
+    <aui:button type="submit" />
+</aui:form>
+
 
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/jsp/view.jsp" />
