@@ -110,11 +110,10 @@ public class MpwcPortlet extends MVCPortlet {
     	String comments = actionRequest.getParameter("comments");
     	Date now = new Date();
     	
-    	if(name != null && surname != null && email != null && nif != null){
+    	if( workerId > 0 ){
     		
 	    	Worker w;
-			try {
-				
+			try {			
 				w = WorkerLocalServiceUtil.getWorker(workerId);
 				w.setName(name);
 		    	w.setSurname(surname);
@@ -139,7 +138,39 @@ public class MpwcPortlet extends MVCPortlet {
 
     }
     
-    
+    public void deleteWorker(ActionRequest actionRequest, ActionResponse actionResponse)
+ 	       throws IOException, PortletException {
+ 	
+	    //Do not delete, mark as deleted
+    	
+	 	long workerId = Long.valueOf( actionRequest.getParameter("workerId") );
+	
+	 	int status = 100; //deleted status
+	 	String comments = "Deleted worker.";
+	 	Date now = new Date();
+	 	
+	 	if( workerId > 0 ){
+	 		
+		    	Worker w;
+				try {			
+					w = WorkerLocalServiceUtil.getWorker(workerId);
+			    	w.setStatus(status);
+			    	w.setComments(comments);
+			    	w.setModifiedDate(now);
+			    	WorkerLocalServiceUtil.updateWorker(w);
+				} catch (SystemException e) {
+					System.out.println("deleteWorker exception:" + e.getMessage());
+				} catch (PortalException e) {
+					System.out.println("deleteWorker exception:" + e.getMessage());
+				}
+	
+	 	}
+	
+	 	// gracefully redirecting to the default portlet view
+	 	String redirectURL = actionRequest.getParameter("redirectURL");
+	 	actionResponse.sendRedirect(redirectURL);
+
+    } 
 
 
 }

@@ -27,6 +27,7 @@
  try{
 	Integer n = WorkerLocalServiceUtil.getWorkersCount();
  	ls = WorkerLocalServiceUtil.getWorkers(0, n);
+ 	//TODO: get only non deleted workers 
  	
  	%>
  	<p><b>Workers list</b></p>
@@ -48,6 +49,8 @@
 	 		<td><b> Nif</b></td>
 	 		<td><b> Email</b></td>
 	 		<td><b> Phone</b></td>
+	 		<td><b> Status</b></td>
+	 		<td><b></b></td>
 	 		<td><b></b></td>
 	 	</tr>
 	 	<%
@@ -57,13 +60,19 @@
 		    	<portlet:param name="mvcPath" value="/jsp/edit.jsp" />
 		    	<portlet:param name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" />
 			</portlet:renderURL>
+			<portlet:renderURL var="deleteWorkerURL">
+		    	<portlet:param name="mvcPath" value="/jsp/delete.jsp" />
+		    	<portlet:param name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" />
+			</portlet:renderURL>
 	 		<tr>
 	 			<td> <%= w.getName() %></td> 
 	 			<td> <%= w.getSurname() %></td> 
 	 			<td> <%= w.getNif() %></td>
 	 			<td> <%= w.getEmail() %></td>
 	 			<td> <%= w.getPhone() %></td>
+	 			<td> <%= w.getStatus() %></td>
 	 			<td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
+	 			<td> &rarr; <a href="<%= deleteWorkerURL %>"> Delete</a></td>
 	 		</tr>
 	 		<%
 	 	}
