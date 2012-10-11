@@ -45,8 +45,11 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.mpwc.model.Worker;
@@ -78,6 +81,7 @@ public class MpwcPortlet extends MVCPortlet {
 		    	w.setEmail(email);
 		    	if( phone != null ){ w.setPhone(phone); }
 		    	if( status > 0 ){ w.setStatus(status); }
+		    	if( comments != null ){ w.setComments(comments); }
 		    	w.setCreateDate(now);
 		    	WorkerLocalServiceUtil.addWorker(w);
 			} catch (SystemException e) {
@@ -92,12 +96,49 @@ public class MpwcPortlet extends MVCPortlet {
      	
      }
 
-    public void render(ActionRequest actionRequest, ActionResponse actionResponse)
-    	       throws IOException, PortletException {
     
-    	//TODO: add some code
+    public void editWorker(ActionRequest actionRequest, ActionResponse actionResponse)
+    	       throws IOException, PortletException {
+    	
+    	long workerId = Long.valueOf( actionRequest.getParameter("workerId") );
+    	String name = actionRequest.getParameter("name");
+    	String surname = actionRequest.getParameter("surname");
+    	String nif = actionRequest.getParameter("nif");
+    	String email = actionRequest.getParameter("email");
+    	String phone = actionRequest.getParameter("phone");
+    	int status = Integer.parseInt(actionRequest.getParameter("status"));
+    	String comments = actionRequest.getParameter("comments");
+    	Date now = new Date();
+    	
+    	if(name != null && surname != null && email != null && nif != null){
+    		
+	    	Worker w;
+			try {
+				
+				w = WorkerLocalServiceUtil.getWorker(workerId);
+				w.setName(name);
+		    	w.setSurname(surname);
+		    	w.setNif(nif);
+		    	w.setEmail(email);
+		    	if( phone != null ){ w.setPhone(phone); }
+		    	if( status > 0 ){ w.setStatus(status); }
+		    	if( comments != null ){ w.setComments(comments); }
+		    	w.setModifiedDate(now);
+		    	WorkerLocalServiceUtil.updateWorker(w);
+			} catch (SystemException e) {
+				System.out.println("editWorker exception:" + e.getMessage());
+			} catch (PortalException e) {
+				System.out.println("editWorker exception:" + e.getMessage());
+			}
+
+    	}
+
+    	// gracefully redirecting to the default portlet view
+    	String redirectURL = actionRequest.getParameter("redirectURL");
+    	actionResponse.sendRedirect(redirectURL);
 
     }
+    
     
 
 

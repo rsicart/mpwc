@@ -43,11 +43,11 @@
  	%>
 	 	<table border="1" width="80%">
 	 	<tr>
-	 		<td><b>Name</b></td>
-	 		<td><b>Surame</b></td>
-	 		<td><b>Nif</b></td>
-	 		<td><b>Email</b></td>
-	 		<td><b>Phone</b></td>
+	 		<td><b> Name</b></td>
+	 		<td><b> Surame</b></td>
+	 		<td><b> Nif</b></td>
+	 		<td><b> Email</b></td>
+	 		<td><b> Phone</b></td>
 	 		<td><b></b></td>
 	 	</tr>
 	 	<%
@@ -58,11 +58,11 @@
 		    	<portlet:param name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" />
 			</portlet:renderURL>
 	 		<tr>
-	 			<td><%= w.getName() %></td> 
-	 			<td><%= w.getSurname() %></td> 
-	 			<td><%= w.getNif() %></td>
-	 			<td><%= w.getEmail() %></td>
-	 			<td><%= w.getPhone() %></td>
+	 			<td> <%= w.getName() %></td> 
+	 			<td> <%= w.getSurname() %></td> 
+	 			<td> <%= w.getNif() %></td>
+	 			<td> <%= w.getEmail() %></td>
+	 			<td> <%= w.getPhone() %></td>
 	 			<td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
 	 		</tr>
 	 		<%
@@ -70,10 +70,11 @@
 	 	%>
 	 	</table>
 	 	
+	 	<br/>
 	 	<portlet:renderURL var="addNewWorkerURL">
 		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
 		</portlet:renderURL>	
-		<p><a href="<%= addNewWorkerURL %>">Add</a>a new worker.</p>
+		<p>Or you can <a href="<%= addNewWorkerURL %>">add</a> a new worker.</p>
  	<%
  	}
  } catch (Exception e) {
