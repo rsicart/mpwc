@@ -18,10 +18,18 @@
 <%@ page import="com.mpwc.model.Worker" %>
 <%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ResourceBundle" %>
+<%@ page import="java.util.Locale" %>
 
 <portlet:defineObjects />
 
 <%
+ Locale locale = request.getLocale();
+ String language = locale.getLanguage();
+ String country = locale.getCountry();
+
+ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
+
  String error = "";
  List<Worker> ls;
  try{
@@ -30,26 +38,26 @@
  	//TODO: get only non deleted workers 
  	
  	%>
- 	<p><b>Workers list</b></p>
+ 	<p><b><%= res.getString("jspview.maintitle") %></b></p>
  	<% 
  	if (n == 0){
  	%>
 		<portlet:renderURL var="addWorkerURL">
 		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
 		</portlet:renderURL>	
-		<p>No workers yet. <a href="<%= addWorkerURL %>">Add</a>a new one.</p>
+		<p><%= res.getString("jspview.message.noworkers") %> <a href="<%= addWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </p>
  	<%
  	}
  	else{
  	%>
 	 	<table border="1" width="80%">
 	 	<tr>
-	 		<td><b> Name</b></td>
-	 		<td><b> Surame</b></td>
-	 		<td><b> Nif</b></td>
-	 		<td><b> Email</b></td>
-	 		<td><b> Phone</b></td>
-	 		<td><b> Status</b></td>
+	 		<td><b> <%= res.getString("formlabel.name") %> </b></td>
+	 		<td><b> <%= res.getString("formlabel.surname") %></b></td>
+	 		<td><b> <%= res.getString("formlabel.nif") %></b></td>
+	 		<td><b> <%= res.getString("formlabel.email") %> </b></td>
+	 		<td><b> <%= res.getString("formlabel.phone") %></b></td>
+	 		<td><b> <%= res.getString("formlabel.status") %></b></td>
 	 		<td><b></b></td>
 	 		<td><b></b></td>
 	 	</tr>
@@ -71,8 +79,8 @@
 	 			<td> <%= w.getEmail() %></td>
 	 			<td> <%= w.getPhone() %></td>
 	 			<td> <%= w.getStatus() %></td>
-	 			<td> &rarr; <a href="<%= editWorkerURL %>"> Edit</a></td>
-	 			<td> &rarr; <a href="<%= deleteWorkerURL %>"> Delete</a></td>
+	 			<td> &rarr; <a href="<%= editWorkerURL %>"> <%= res.getString("formlabel.actionedit") %></a></td>
+	 			<td> &rarr; <a href="<%= deleteWorkerURL %>"> <%= res.getString("formlabel.actiondelete") %></a></td>
 	 		</tr>
 	 		<%
 	 	}
@@ -83,7 +91,7 @@
 	 	<portlet:renderURL var="addNewWorkerURL">
 		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
 		</portlet:renderURL>	
-		<p>Or you can <a href="<%= addNewWorkerURL %>">add</a> a new worker.</p>
+		<p><a href="<%= addNewWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </p>
  	<%
  	}
  } catch (Exception e) {

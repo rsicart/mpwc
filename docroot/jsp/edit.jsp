@@ -6,10 +6,20 @@
 <%@ page import="javax.portlet.PortletPreferences" %>
 <%@ page import="com.mpwc.model.Worker" %>
 <%@ page import="com.mpwc.service.WorkerLocalServiceUtil" %>
+<%@ page import="java.util.ResourceBundle" %>
+<%@ page import="java.util.Locale" %>
 
 <portlet:defineObjects />
 
-<p><b>Edit worker</b></p>
+<% 
+Locale locale = request.getLocale();
+String language = locale.getLanguage();
+String country = locale.getCountry();
+
+ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
+%>
+
+<p><b><%= res.getString("jspedit.maintitle") %></b></p>
 
 <%
 	long workerId = Long.valueOf( renderRequest.getParameter("workerId") );
@@ -28,19 +38,19 @@
 	<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
 
 	<aui:fieldset>
-		<aui:input label="name" name="name" type="text" value="<%= w.getName() %>" />
-	    <aui:input label="surname" name="surname" type="text" value="<%= w.getSurname() %>" />
+		<aui:input label="<%= res.getString("formlabel.name") %>" name="name" type="text" value="<%= w.getName() %>" />
+	    <aui:input label="<%= res.getString("formlabel.surname") %>" name="surname" type="text" value="<%= w.getSurname() %>" />
 	</aui:fieldset>
    <aui:fieldset>
-	    <aui:input label="nif" name="nif" type="text" value="<%= w.getNif() %>" />
-	    <aui:input label="email" name="email" type="text" value="<%= w.getEmail() %>" />    
+	    <aui:input label="<%= res.getString("formlabel.nif") %>" name="nif" type="text" value="<%= w.getNif() %>" />
+	    <aui:input label="<%= res.getString("formlabel.email") %>" name="email" type="text" value="<%= w.getEmail() %>" />    
    </aui:fieldset>
    <aui:fieldset>
-		<aui:input label="phone" name="phone" type="text" value="<%= w.getPhone() %>" />
-		<aui:select name="status">
-			<aui:option label="Active" value="1"></aui:option>
-			<aui:option label="Inactive" value="2"></aui:option>
-			<aui:option label="Bloqued" value="3"></aui:option>
+		<aui:input label="<%= res.getString("formlabel.phone") %>" name="phone" type="text" value="<%= w.getPhone() %>" />
+		<aui:select name="<%= res.getString("formlabel.status") %>">
+			<aui:option label="<%= res.getString("formlabel.option.active") %>" value="1"></aui:option>
+			<aui:option label="<%= res.getString("formlabel.option.inactive") %>" value="2"></aui:option>
+			<aui:option label="<%= res.getString("formlabel.option.bloqued") %>" value="3"></aui:option>
 		</aui:select>
    </aui:fieldset>
    <aui:fieldset>
