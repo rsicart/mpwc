@@ -45,7 +45,7 @@
 		<portlet:renderURL var="addWorkerURL">
 		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
 		</portlet:renderURL>	
-		<p><%= res.getString("jspview.message.noworkers") %> <a href="<%= addWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </p>
+		<p><%= res.getString("jspview.message.noworkers") %> <a href="<%= addWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </a></p>
  	<%
  	}
  	else{
@@ -91,7 +91,7 @@
 	 	<portlet:renderURL var="addNewWorkerURL">
 		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
 		</portlet:renderURL>	
-		<p><a href="<%= addNewWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </p>
+		<p><a href="<%= addNewWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </a></p>
  	<%
  	}
  } catch (Exception e) {

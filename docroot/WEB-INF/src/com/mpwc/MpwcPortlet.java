@@ -66,6 +66,7 @@ public class MpwcPortlet extends MVCPortlet {
     	String email = actionRequest.getParameter("email");
     	String phone = actionRequest.getParameter("phone");
     	int status = Integer.parseInt(actionRequest.getParameter("status"));
+
     	String comments = actionRequest.getParameter("comments");
     	Date now = new Date();
     	
