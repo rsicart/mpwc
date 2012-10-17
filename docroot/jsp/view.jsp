@@ -53,7 +53,9 @@
  	}
  	else{
  	%>
- 	
+ 		<portlet:renderURL var="addNewWorkerCheckbox">
+		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
+		</portlet:renderURL>	
 	 	<portlet:renderURL var="editWorkerCheckbox">
 			    <portlet:param name="mvcPath" value="/jsp/edit.jsp" />
 		</portlet:renderURL>
@@ -62,6 +64,10 @@
 		</portlet:renderURL>
 	 	
 	 	<script type="text/javascript">
+	 		function onAdd(){
+				var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+	 			document.getElementById(fullid).action="<%= addNewWorkerCheckbox %>";
+	 		} 	
 	 		function onEdit(){
 				var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
 	 			document.getElementById(fullid).action="<%= editWorkerCheckbox %>";
@@ -79,7 +85,7 @@
  		<aui:column columnWidth="90" first="true">
  		
 	 	<table border="1" width="80%">
-	 	<tr>
+	 	<tr class="portlet-section-header">
 	 		<td><b></b></td>
 	 		<td><b> <%= res.getString("formlabel.name") %> </b></td>
 	 		<td><b> <%= res.getString("formlabel.surname") %></b></td>
@@ -92,7 +98,7 @@
 	 	for(Worker w: ls){
 	 		%>
 
- 		<tr>
+ 		<tr class="portlet-section-body">
  			<td><input type="checkbox" name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" /></td>
  			<td> <%= w.getName() %></td> 
  			<td> <%= w.getSurname() %></td> 
@@ -110,10 +116,13 @@
 	 	
 	 	<aui:column columnWidth="10" last="true">
 	 	
-	 	<aui:button type="submit" value='<%= res.getString("formlabel.actionedit") %>' onClick='onEdit();' />	 	
-	 	<br/>
-	 	<br/>
-	 	<aui:button type="submit" value='<%= res.getString("formlabel.actiondelete") %>' onClick='onDelete();' />
+		 	<aui:fieldset>
+		 	
+		 	<aui:button type="submit" value='<%= res.getString("formlabel.actionadd") %>' onClick='onAdd();' />
+		 	<aui:button type="submit" value='<%= res.getString("formlabel.actionedit") %>' onClick='onEdit();' />	 	
+		 	<aui:button type="submit" value='<%= res.getString("formlabel.actiondelete") %>' onClick='onDelete();' />
+		 	
+		 	</aui:fieldset>
 	 	
 	 	</aui:column>
 	 	
@@ -121,11 +130,6 @@
 	 	
 	 	</aui:form>
 	 	
-	 	<br/>
-	 	<portlet:renderURL var="addNewWorkerURL">
-		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
-		</portlet:renderURL>	
-		<p><a href="<%= addNewWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </a></p>
  	<%
  	}
  } catch (Exception e) {

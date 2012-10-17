@@ -37,7 +37,12 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 	
 	<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
 
-	<aui:fieldset>
+	<aui:layout>
+ 		
+ 	<aui:column columnWidth="25" first="true">
+ 	
+ 		<aui:fieldset>
+ 		
 		<aui:input label='<%= res.getString("formlabel.name") %>' name="name" type="text" value="<%= w.getName() %>" >
 			<aui:validator name="required" />
 			<!-- Only allow alphabetical characters -->
@@ -48,8 +53,24 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 			<!-- Only allow alphabetical characters -->
      		<aui:validator name="alpha" />
 		</aui:input>
-	</aui:fieldset>
-   <aui:fieldset>
+		<aui:input label='<%= res.getString("formlabel.phone") %>' name="phone" type="text" value="<%= w.getPhone() %>" >
+			<!-- Only allow numbers -->
+     		<aui:validator name="digits" />
+		</aui:input>
+		
+		<aui:input type="textarea" name="comments" value="<%= w.getComments() %>" >
+			<!-- Only allow alphabetical characters -->
+     		<aui:validator name="alphanum" />
+		</aui:input>
+		
+		</aui:fieldset>
+	
+	</aui:column>
+	
+	<aui:column columnWidth="25" first="true">
+	
+		<aui:fieldset>
+		
 	    <aui:input label='<%= res.getString("formlabel.nif") %>' name="nif" type="text" value="<%= w.getNif() %>" >
 			<aui:validator name="required" />
 			<!-- Only allow alphabetical characters -->
@@ -59,25 +80,20 @@ ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale
 			<aui:validator name="required" />
 			<!-- Only allow email format -->
      		<aui:validator name="email" />
-		</aui:input>    
-   </aui:fieldset>
-   <aui:fieldset>
-		<aui:input label='<%= res.getString("formlabel.phone") %>' name="phone" type="text" value="<%= w.getPhone() %>" >
-			<!-- Only allow numbers -->
-     		<aui:validator name="digits" />
-		</aui:input>
+		</aui:input>  
+		
 		<aui:select label='<%= res.getString("formlabel.status") %>' name="status">
 			<aui:option label='<%= res.getString("formlabel.option.active") %>' value="1"></aui:option>
 			<aui:option label='<%= res.getString("formlabel.option.inactive") %>' value="2"></aui:option>
 			<aui:option label='<%= res.getString("formlabel.option.bloqued") %>' value="3"></aui:option>
-		</aui:select>
-   </aui:fieldset>
-   <aui:fieldset>
-   		<aui:input type="textarea" name="comments" value="<%= w.getComments() %>" >
-			<!-- Only allow alphabetical characters -->
-     		<aui:validator name="alphanum" />
-		</aui:input>
-   </aui:fieldset>
+		</aui:select>  
+	
+		</aui:fieldset>
+		    
+	</aui:column>
+	
+   </aui:layout>
+
    <aui:button type="submit" />
 </aui:form>
 
