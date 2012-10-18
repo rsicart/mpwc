@@ -70,7 +70,11 @@ public class MpwcPortlet extends MVCPortlet {
     	String comments = actionRequest.getParameter("comments");
     	Date now = new Date();
     	
-    	if(name != null && surname != null && email != null && nif != null){
+    	if(		name != null && !name.isEmpty() &&
+    			surname != null && !surname.isEmpty() &&
+    			email != null && !email.isEmpty() && email.indexOf("@") > 0 &&
+    			nif != null && !nif.isEmpty() 
+    		){
     		
 	    	Worker w;
 			try {
@@ -80,9 +84,9 @@ public class MpwcPortlet extends MVCPortlet {
 		    	w.setSurname(surname);
 		    	w.setNif(nif);
 		    	w.setEmail(email);
-		    	if( phone != null ){ w.setPhone(phone); }
+		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
 		    	if( status > 0 ){ w.setStatus(status); }
-		    	if( comments != null ){ w.setComments(comments); }
+		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
 		    	w.setCreateDate(now);
 		    	WorkerLocalServiceUtil.addWorker(w);
 			} catch (SystemException e) {
@@ -116,13 +120,13 @@ public class MpwcPortlet extends MVCPortlet {
 	    	Worker w;
 			try {			
 				w = WorkerLocalServiceUtil.getWorker(workerId);
-				w.setName(name);
-		    	w.setSurname(surname);
-		    	w.setNif(nif);
-		    	w.setEmail(email);
-		    	if( phone != null ){ w.setPhone(phone); }
+				if( name != null && !name.isEmpty() ){ w.setName(name); }
+				if( surname != null && !surname.isEmpty() ){ w.setSurname(surname); }
+				if( nif != null && !nif.isEmpty() ){ w.setNif(nif); }
+				if( email != null && !email.isEmpty() && email.indexOf("@") > 0 ){ w.setEmail(email); }
+		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
 		    	if( status > 0 ){ w.setStatus(status); }
-		    	if( comments != null ){ w.setComments(comments); }
+		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
 		    	w.setModifiedDate(now);
 		    	WorkerLocalServiceUtil.updateWorker(w);
 			} catch (SystemException e) {
