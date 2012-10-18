@@ -40,6 +40,7 @@ package com.mpwc;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -47,10 +48,15 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import com.mpwc.model.Worker;
 import com.mpwc.service.WorkerLocalServiceUtil;
@@ -175,7 +181,56 @@ public class MpwcPortlet extends MVCPortlet {
 	 	String redirectURL = actionRequest.getParameter("redirectURL");
 	 	actionResponse.sendRedirect(redirectURL);
 
-    } 
+    }
+    
+    
+    public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
+    		throws IOException, PortletException {
+
+    	String jspPage = resourceRequest.getParameter("name");
+		System.out.println("jspPage"+jspPage);
+		
+    	try {
+			int end = WorkerLocalServiceUtil.getWorkersCount();
+			List<Worker> objectList=WorkerLocalServiceUtil.getWorkers(0, end);
+			
+			JSONObject recordsjsonObject=JSONFactoryUtil.createJSONObject();
+			JSONArray rowjsonObject=null;
+			JSONObject cell=null;
+			JSONArray recordsjsonArray=JSONFactoryUtil.createJSONArray();
+			
+			recordsjsonObject.put("page","1");
+			double total_pages = Math.ceil(objectList.size()/10);
+			recordsjsonObject.put("total",String.valueOf(total_pages));
+			recordsjsonObject.put("records ", String.valueOf(objectList.size()));
+			
+			if(!objectList.isEmpty()){
+				for(int i=0;i<objectList.size();i++){    
+					Worker w = objectList.get(i);
+					rowjsonObject=JSONFactoryUtil.createJSONArray();
+					cell=JSONFactoryUtil.createJSONObject();
+					rowjsonObject.put( String.valueOf( w.getWorkerId() ) );
+					rowjsonObject.put(String.valueOf( w.getName() ) );
+					rowjsonObject.put( String.valueOf( w.getSurname() ) );
+					rowjsonObject.put( String.valueOf( w.getEmail() ) );
+					rowjsonObject.put( String.valueOf( w.getNif() ) );
+					rowjsonObject.put( String.valueOf( w.getStatus() ) );
+
+					cell.put("id", String.valueOf( w.getWorkerId() ) );
+					cell.put("cell",rowjsonObject);
+					recordsjsonArray.put(cell); 
+				}
+
+				recordsjsonObject.put("rows",recordsjsonArray);
+			}
+			resourceResponse.getWriter().print(recordsjsonObject.toString());
+			System.out.println(recordsjsonObject.toString());
+    	} catch (SystemException e) {
+    		System.out.println("serveResource Error: " + e.getMessage() );
+    	}
+ 
+    }
+
 
 
 }
