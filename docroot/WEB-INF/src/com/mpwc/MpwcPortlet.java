@@ -55,6 +55,7 @@ import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.util.bridges.mvc.MVCPortlet;
@@ -182,6 +183,57 @@ public class MpwcPortlet extends MVCPortlet {
 	 	actionResponse.sendRedirect(redirectURL);
 
     }
+    
+    public void deleteWorkers(ActionRequest actionRequest, ActionResponse actionResponse)
+  	       throws IOException, PortletException {
+  	
+ 	    //Do not delete, mark as deleted
+     	
+ 	 	String jsonWorkerIds = actionRequest.getParameter("jsonWorkerIds");
+ 	
+ 	 	int status = 100; //deleted status
+ 	 	String comments = "Deleted worker.";
+ 	 	Date now = new Date();
+ 	 	
+ 	 	JSONArray jsonArrayWorkers = null;
+		try {
+			jsonArrayWorkers = JSONFactoryUtil.createJSONArray(jsonWorkerIds);
+		} catch (JSONException e1) {
+			System.out.println("deleteWorkers exception:" + e1.getMessage());
+		}
+ 	 	
+ 	 	if( jsonWorkerIds != null && jsonArrayWorkers != null ){ 		
+ 	 		
+ 	 		System.out.println("deleteWorkers: jsonWorkerIds ->" +jsonWorkerIds);
+ 	 		System.out.println("deleteWorkers: jsonArrayWorkers ->" +jsonArrayWorkers.toString());
+ 	 		
+ 	 		for(int i=0; i<jsonArrayWorkers.length(); i++){
+ 	 		
+ 		    	Worker w;
+ 				try {			
+ 					w = WorkerLocalServiceUtil.getWorker(jsonArrayWorkers.getLong(i));
+ 			    	w.setStatus(status);
+ 			    	w.setComments(comments);
+ 			    	w.setModifiedDate(now);
+ 			    	WorkerLocalServiceUtil.updateWorker(w);
+ 				} catch (SystemException e) {
+ 					System.out.println("deleteWorkers exception:" + e.getMessage());
+ 				} catch (PortalException e) {
+ 					System.out.println("deleteWorkers exception:" + e.getMessage());
+ 				}
+ 	 			
+ 	 		}
+ 	
+ 	 	}
+ 	 	else{
+ 	 		System.out.println("deleteWorkers: No workers to delete");
+ 	 	}
+ 	
+ 	 	// gracefully redirecting to the default portlet view
+ 	 	String redirectURL = actionRequest.getParameter("redirectURL");
+ 	 	actionResponse.sendRedirect(redirectURL);
+
+     }
     
     
     public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)

@@ -61,22 +61,11 @@ POSSIBILITY OF SUCH DAMAGE.
  ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
  %>
  
- <link rel="stylesheet" type="text/css" media="screen" href="<%=renderRequest.getContextPath()%>/css/ui.jqgrid.css" />
- <link rel="stylesheet" type="text/css" media="screen" href="<%=renderRequest.getContextPath()%>/css/ui.multiselect.css" />
- <script src="<%=renderRequest.getContextPath()%>/js/datatype.js" type="text/javascript"> </script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery-ui-custom.min.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery.layout.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/i18n/grid.locale-en.js" type="text/javascript"></script>
- 
  <script type="text/javascript">
  jQuery.jgrid.no_legacy_api = true;
  jQuery.jgrid.useJSON = true;
  </script>
- <script src="<%=renderRequest.getContextPath()%>/js/ui.multiselect.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery.jqGrid.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery.tablednd.js" type="text/javascript"></script>
- <script src="<%=renderRequest.getContextPath()%>/js/jquery.contextmenu.js" type="text/javascript"></script>
+
 
 	<portlet:renderURL var="addNewWorkerCheckbox">
 	   <portlet:param name="mvcPath" value="/jsp/add.jsp" />
@@ -87,36 +76,15 @@ POSSIBILITY OF SUCH DAMAGE.
 	<portlet:renderURL var="deleteWorkerCheckbox">
 	    <portlet:param name="mvcPath" value="/jsp/delete.jsp" />
 	</portlet:renderURL>
-	
-	<script type="text/javascript">
-		function onAdd(){
-			var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-			document.getElementById(fullid).action="<%= addNewWorkerCheckbox %>";
-		} 	
-		function onEdit(){			
-			var myGrid = $('#list3'),
-		    selRowId = myGrid.jqGrid ('getGridParam', 'selrow'),
-		    celValue = myGrid.jqGrid ('getCell', selRowId, 'id');
-			$('#workerId').val(celValue);
-			
-			var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-			document.getElementById(fullid).action="<%= editWorkerCheckbox %>";
-			
-		}
-		function onDelete(){
-			var myGrid = $('#list3'),
-		    selRowId = myGrid.jqGrid ('getGridParam', 'selrow'),
-		    celValue = myGrid.jqGrid ('getCell', selRowId, 'id');
-			$('#workerId').val(celValue);
-			
-			var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-			document.getElementById(fullid).action="<%= deleteWorkerCheckbox %>";
-		}
-	</script>
+	<portlet:actionURL var="deleteWorkersURL" name="deleteWorkers">
+	    <portlet:param name="mvcPath" value="/jsp/list.jsp" />
+	</portlet:actionURL>
 	
 	<aui:form name="frm_list_workers" action="" method="post">
 	
+		<aui:input type="hidden" name="redirectURL" value="<%= renderResponse.createRenderURL().toString() %>"/>
 		<input type="hidden" id="workerId" name="workerId" value="" />
+		<input type="hidden" id="jsonWorkerIds" name="jsonWorkerIds" value="" />
 	
 	<aui:layout>
 	
@@ -134,10 +102,10 @@ POSSIBILITY OF SUCH DAMAGE.
  	<aui:column columnWidth="10" last="true">
  	
 	 	<aui:fieldset>
-	 	
-	 	<aui:button type="submit" value='<%= res.getString("formlabel.actionadd") %>' onClick='onAdd();' />
-	 	<aui:button type="submit" value='<%= res.getString("formlabel.actionedit") %>' onClick='onEdit();' />	 	
-	 	<aui:button type="submit" value='<%= res.getString("formlabel.actiondelete") %>' onClick='onDelete();' />
+
+	 	<aui:button type="submit" id="btn_add" value='<%= res.getString("formlabel.actionadd") %>' />
+	 	<aui:button type="submit" id="btn_edit" value='<%= res.getString("formlabel.actionedit") %>' />	 	
+	 	<aui:button type="submit" id="btn_delete" value='<%= res.getString("formlabel.actiondelete") %>' />
 	 	
 	 	</aui:fieldset>
  	
@@ -181,6 +149,36 @@ POSSIBILITY OF SUCH DAMAGE.
   {},
   {multipleSearch:true, multipleGroup:true}
   );
+ 
+ //////buttons
+ //add
+ jQuery("#btn_add").click( function(){
+	 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+	 $(fullid).attr("action","<%= addNewWorkerCheckbox %>");
+	 
+ });
+ 
+ //edit
+ jQuery("#btn_edit").click( function(){
+	 var myGrid = $('#list3'),
+	 selRowId = myGrid.jqGrid ('getGridParam', 'selrow'),
+	 celValue = myGrid.jqGrid ('getCell', selRowId, 'id');
+	 $('#workerId').val(celValue);
+	 
+	 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+	 $(fullid).attr("action","<%= editWorkerCheckbox %>");	 
+ });
+ 
+ //delete
+ jQuery("#btn_delete").click( function(){
+	 var myGrid = $('#list3'),
+	 selArrRowIds = "["+myGrid.getGridParam('selarrrow')+"]";
+	 $('#jsonWorkerIds').val(selArrRowIds);
+	 if( confirm("<%= res.getString("jspview.dialog.areyouusure") %>") ){
+		 var fullid = "#<%= renderResponse.getNamespace() %>"+"frm_list_workers";
+		 $(fullid).attr("action","<%= deleteWorkersURL %>"); 
+	 }	 
+ });
 
 
  </script>
