@@ -4,6 +4,6 @@ Mpwc-portlet contains all database access services for related portlets.
 
 For the moment, there is only one portlet to manage workers from a business. If you are interested, you can check the next URL:
 
-https://github.com/rsicart/mpwc
+https://github.com/rsicart/mpwc-worker
 
 R.Sicart
