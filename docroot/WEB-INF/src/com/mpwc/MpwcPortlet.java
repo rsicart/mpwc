@@ -92,7 +92,7 @@ public class MpwcPortlet extends MVCPortlet {
 		    	w.setNif(nif);
 		    	w.setEmail(email);
 		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
-		    	if( status > 0 ){ w.setStatus(status); }
+		    	if( status > 0 ){ w.setStatusId(status); }
 		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
 		    	w.setCreateDate(now);
 		    	WorkerLocalServiceUtil.addWorker(w);
@@ -132,7 +132,7 @@ public class MpwcPortlet extends MVCPortlet {
 				if( nif != null && !nif.isEmpty() ){ w.setNif(nif); }
 				if( email != null && !email.isEmpty() && email.indexOf("@") > 0 ){ w.setEmail(email); }
 		    	if( phone != null && !phone.isEmpty() ){ w.setPhone(phone); }
-		    	if( status > 0 ){ w.setStatus(status); }
+		    	if( status > 0 ){ w.setStatusId(status); }
 		    	if( comments != null && !comments.isEmpty() ){ w.setComments(comments); }
 		    	w.setModifiedDate(now);
 		    	WorkerLocalServiceUtil.updateWorker(w);
@@ -166,7 +166,7 @@ public class MpwcPortlet extends MVCPortlet {
 		    	Worker w;
 				try {			
 					w = WorkerLocalServiceUtil.getWorker(workerId);
-			    	w.setStatus(status);
+			    	w.setStatusId(status);
 			    	w.setComments(comments);
 			    	w.setModifiedDate(now);
 			    	WorkerLocalServiceUtil.updateWorker(w);
@@ -212,7 +212,7 @@ public class MpwcPortlet extends MVCPortlet {
  		    	Worker w;
  				try {			
  					w = WorkerLocalServiceUtil.getWorker(jsonArrayWorkers.getLong(i));
- 			    	w.setStatus(status);
+ 			    	w.setStatusId(status);
  			    	w.setComments(comments);
  			    	w.setModifiedDate(now);
  			    	WorkerLocalServiceUtil.updateWorker(w);
@@ -266,7 +266,7 @@ public class MpwcPortlet extends MVCPortlet {
 					rowjsonObject.put( String.valueOf( w.getSurname() ) );
 					rowjsonObject.put( String.valueOf( w.getEmail() ) );
 					rowjsonObject.put( String.valueOf( w.getNif() ) );
-					rowjsonObject.put( String.valueOf( w.getStatus() ) );
+					rowjsonObject.put( String.valueOf( w.getStatusId() ) );
 
 					cell.put("id", String.valueOf( w.getWorkerId() ) );
 					cell.put("cell",rowjsonObject);
