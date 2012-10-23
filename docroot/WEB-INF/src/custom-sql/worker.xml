@@ -10,4 +10,19 @@
 				(tbl_mpwc_workers.name like ?)
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.WorkerFinderImpl.getWorkersByStatusDesc">
+		<![CDATA[
+			SELECT
+				w.*
+			FROM
+				tbl_mpwc_workers w
+			INNER JOIN
+				tbl_mpwc_workerstatus s
+			ON
+				w.statusid = s.statusid
+			WHERE
+				(s.desc_en_US like ? OR s.desc_es_ES like ? OR s.desc_ca_ES like ?)
+		]]>
+	</sql>
 </custom-sql>
