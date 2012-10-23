@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<custom-sql>
+	<sql id="com.mpwc.service.persistence.WorkerFinderImpl.getWorkersByName">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				tbl_mpwc_workers
+			WHERE
+				(tbl_mpwc_workers.name like ?)
+		]]>
+	</sql>
+</custom-sql>

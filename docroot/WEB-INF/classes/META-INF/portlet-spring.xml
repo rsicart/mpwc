@@ -7,4 +7,5 @@
 	<bean id="com.mpwc.service.WorkerLocalService" class="com.mpwc.service.impl.WorkerLocalServiceImpl" />
 	<bean id="com.mpwc.service.WorkerService" class="com.mpwc.service.impl.WorkerServiceImpl" />
 	<bean id="com.mpwc.service.persistence.WorkerPersistence" class="com.mpwc.service.persistence.WorkerPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.persistence.WorkerFinder" class="com.mpwc.service.persistence.WorkerFinderImpl" parent="basePersistence" />
 </beans>
