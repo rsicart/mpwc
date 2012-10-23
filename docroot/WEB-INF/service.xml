@@ -30,9 +30,9 @@
 		<column name="email" type="String" />
 		<column name="phone" type="String" />
 		<column name="comments" type="String" />
-		<column name="status" type="int" />
 
 		<!-- Order -->
+		<column name="statusId" type="long" /> 
 
 		<order by="asc">
 			<order-column name="workerId" />
@@ -47,9 +47,6 @@
 		<finder name="Email" return-type="Collection">
 			<finder-column name="email" />
 		</finder>
-		<finder name="Status" return-type="Collection">
-			<finder-column name="status" />
-		</finder>
 		<finder name="Name" return-type="Collection">
 			<finder-column name="name" />
 		</finder>
@@ -57,5 +54,17 @@
 			<finder-column name="surname" />
 		</finder>
 	</entity>
+    <entity name="Status" local-service="true" table="tbl_mpwc_workerstatus">
+        <column name="statusId" type="long" primary="true"></column>
+        <column name="desc_en_US" type="String"></column>
+        <column name="desc_es_ES" type="String"></column>
+        <column name="desc_ca_ES" type="String"></column>
+        <column
+		   name="workerStatus"
+		   type="Collection"
+		   entity="Worker"
+		   mapping-key="statusId" />
+        
+    </entity>
 	
 </service-builder>

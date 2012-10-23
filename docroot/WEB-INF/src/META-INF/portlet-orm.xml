@@ -7,6 +7,17 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.mpwc.model.impl.StatusModelImpl">
+		<attributes>
+			<id name="statusId" />
+			<basic name="desc_en_US" />
+			<basic name="desc_es_ES" />
+			<basic name="desc_ca_ES" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.mpwc.model.impl.WorkerModelImpl">
 		<attributes>
 			<id name="workerId" />
@@ -26,13 +37,17 @@
 			<basic name="email" />
 			<basic name="phone" />
 			<basic name="comments" />
-			<basic name="status" />
+			<basic name="statusId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.mpwc.model.impl.StatusImpl" name="Status">
+		<table name="tbl_mpwc_workerstatus" />
+		<attributes />
+	</entity>
 	<entity class="com.mpwc.model.impl.WorkerImpl" name="Worker">
 		<table name="tbl_mpwc_workers" />
 		<attributes />

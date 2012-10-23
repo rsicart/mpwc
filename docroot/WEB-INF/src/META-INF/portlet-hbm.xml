@@ -2,7 +2,17 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.mpwc.model.Status" />
 	<import class="com.mpwc.model.Worker" />
+	<class name="com.mpwc.model.impl.StatusImpl" table="tbl_mpwc_workerstatus">
+		<cache usage="read-write" />
+		<id name="statusId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="desc_en_US" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="desc_es_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="desc_ca_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="com.mpwc.model.impl.WorkerImpl" table="tbl_mpwc_workers">
 		<cache usage="read-write" />
 		<id name="workerId" type="long">
@@ -22,6 +32,6 @@
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="status" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="statusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 </hibernate-mapping>
