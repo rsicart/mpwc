@@ -25,4 +25,24 @@
 				(s.desc_en_US like ? OR s.desc_es_ES like ? OR s.desc_ca_ES like ?)
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.WorkerFinderImpl.getWorkersByFilters">
+		<![CDATA[	
+			SELECT
+				w.*
+			FROM
+				tbl_mpwc_workers w
+			INNER JOIN
+				tbl_mpwc_workerstatus s
+			ON
+				w.statusid = s.statusid
+			WHERE
+				(s.desc_en_US LIKE ? OR s.desc_es_ES LIKE ? OR s.desc_ca_ES LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(w.nif LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(w.name LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(w.surname LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(w.email LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(w.phone LIKE ? [$AND_OR_NULL_CHECK$] )			
+		]]>
+	</sql>
 </custom-sql>
