@@ -31,9 +31,10 @@
 		<column name="phone" type="String" />
 		<column name="comments" type="String" />
 
-		<!-- Order -->
+		
 		<column name="statusId" type="long" /> 
-
+		
+		<!-- Order -->
 		<order by="asc">
 			<order-column name="workerId" />
 		</order>
@@ -53,7 +54,29 @@
 		<finder name="Surname" return-type="Collection">
 			<finder-column name="surname" />
 		</finder>
+		
+		<finder name="G_Nif" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="nif" />
+		</finder>
+		
+		<finder name="G_Email" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="email" />
+		</finder>
+		
+		<finder name="G_Namel" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="name" />
+		</finder>
+		
+		<finder name="G_Surname" return-type="Collection">
+			<finder-column name="groupId" />
+			<finder-column name="surname" />
+		</finder>
+		
 	</entity>
+	
     <entity name="Status" local-service="true" table="tbl_mpwc_workerstatus">
         <column name="statusId" type="long" primary="true"></column>
         <column name="desc_en_US" type="String"></column>
