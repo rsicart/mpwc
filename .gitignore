@@ -8,8 +8,8 @@ WEB-INF/classes
 WEB-INF/tld
 WEB-INF/service
 WEB-INF/sql
-WEB-INF/src/com/mpwc/service
-WEB-INF/src/com/mpwc/model
+## WEB-INF/src/com/mpwc/service
+## WEB-INF/src/com/mpwc/model
 
 
 
