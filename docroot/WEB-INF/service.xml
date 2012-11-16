@@ -65,7 +65,7 @@
 			<finder-column name="email" />
 		</finder>
 		
-		<finder name="G_Namel" return-type="Collection">
+		<finder name="G_Name" return-type="Collection">
 			<finder-column name="groupId" />
 			<finder-column name="name" />
 		</finder>
@@ -74,6 +74,11 @@
 			<finder-column name="groupId" />
 			<finder-column name="surname" />
 		</finder>
+        <finder name="G_U" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="userId"></finder-column>
+        </finder>
+		
 		
 	</entity>
 	
