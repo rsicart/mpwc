@@ -19,9 +19,12 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.Group;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
+import com.liferay.portal.service.GroupLocalServiceUtil;
+import com.liferay.portal.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.mpwc.NoSuchWorkerException;
@@ -100,7 +103,22 @@ public class WorkerLocalServiceImpl extends WorkerLocalServiceBaseImpl {
 		w.setUserName(worker.getUserName());
 		w.setCompanyId(worker.getCompanyId());
 		w.setGroupId(worker.getGroupId());
-		w.setUserId(userId);	
+		w.setUserId(userId);
+		
+		//add role MpwcUser
+		Role mpwcUserRole = RoleLocalServiceUtil.getDefaultGroupRole(w.getGroupId());
+		mpwcUserRole = RoleLocalServiceUtil.getRole(w.getCompanyId(), "MpwcUser");
+		long roleId = mpwcUserRole.getRoleId();
+		long[] userIds = new long[1];
+		userIds[0] = userId;
+		UserLocalServiceUtil.addRoleUsers(roleId, userIds);
+		
+		//add user to organization
+		Group group = GroupLocalServiceUtil.getGroup(w.getGroupId());
+		if(group.isOrganization()){
+			UserLocalServiceUtil.addOrganizationUsers(group.getOrganizationId(), userIds);
+			System.out.println("WorkerLocalServiceImpl addWorker: addin user to organization"+group.getOrganizationId());
+		}
 		
 		return workerPersistence.update(w, false);
 	}
