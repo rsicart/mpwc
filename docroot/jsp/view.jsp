@@ -55,115 +55,27 @@ POSSIBILITY OF SUCH DAMAGE.
  String country = locale.getCountry();
 
  ResourceBundle res = ResourceBundle.getBundle("content.Language-ext", new Locale(language, country));
-
- String error = "";
- List<Worker> ls;
- try{
-	Integer n = WorkerLocalServiceUtil.getWorkersCount();
- 	ls = WorkerLocalServiceUtil.getWorkers(0, n);
- 	ls = WorkerLocalServiceUtil.findByStatus(1);
- 	//TODO: get only non deleted workers 
- 	
- 	%>
- 	<p><b><%= res.getString("jspview.maintitle") %></b></p>
- 	<% 
- 	if (n == 0){
- 	%>
-		<portlet:renderURL var="addWorkerURL">
-		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
-		</portlet:renderURL>	
-		<p><%= res.getString("jspview.message.noworkers") %> <a href="<%= addWorkerURL %>"> <%= res.getString("jspview.message.addoneworker") %> </a></p>
- 	<%
- 	}
- 	else{
- 	%>
- 		<portlet:renderURL var="addNewWorkerCheckbox">
-		    <portlet:param name="mvcPath" value="/jsp/add.jsp" />
-		</portlet:renderURL>	
-	 	<portlet:renderURL var="editWorkerCheckbox">
-			    <portlet:param name="mvcPath" value="/jsp/edit.jsp" />
-		</portlet:renderURL>
-		<portlet:renderURL var="deleteWorkerCheckbox">
-			    <portlet:param name="mvcPath" value="/jsp/delete.jsp" />
-		</portlet:renderURL>
-	 	
-	 	<script type="text/javascript">
-	 		function onAdd(){
-				var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-	 			document.getElementById(fullid).action="<%= addNewWorkerCheckbox %>";
-	 		} 	
-	 		function onEdit(){
-				var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-	 			document.getElementById(fullid).action="<%= editWorkerCheckbox %>";
-	 		}
-	 		function onDelete(){
-				var fullid = "<%= renderResponse.getNamespace() %>"+"frm_list_workers";
-	 			document.getElementById(fullid).action="<%= deleteWorkerCheckbox %>";
-	 		}
-	 	</script>
- 	
- 		<aui:form name="frm_list_workers" action="" method="post">
- 		
- 		<aui:layout>
- 		
- 		<aui:column columnWidth="90" first="true">
- 		
-	 	<table border="1" width="80%">
-	 	<tr class="portlet-section-header">
-	 		<td><b></b></td>
-	 		<td><b> <%= res.getString("formlabel.name") %> </b></td>
-	 		<td><b> <%= res.getString("formlabel.surname") %></b></td>
-	 		<td><b> <%= res.getString("formlabel.nif") %></b></td>
-	 		<td><b> <%= res.getString("formlabel.email") %> </b></td>
-	 		<td><b> <%= res.getString("formlabel.phone") %></b></td>
-	 		<td><b> <%= res.getString("formlabel.status") %></b></td>
-	 	</tr>
-	 	<%
-	 	for(Worker w: ls){
-	 		%>
-
- 		<tr class="portlet-section-body">
- 			<td><input type="checkbox" name="workerId" value="<%= String.valueOf( w.getWorkerId() ) %>" /></td>
- 			<td> <%= w.getName() %></td> 
- 			<td> <%= w.getSurname() %></td> 
- 			<td> <%= w.getNif() %></td>
- 			<td> <%= w.getEmail() %></td>
- 			<td> <%= w.getPhone() %></td>
- 			<td> <%= w.getStatus() %></td>
- 		</tr>
-	 		<%
-	 	}
-	 	%>
-	 	</table>
-	 	
-	 	</aui:column>
-	 	
-	 	<aui:column columnWidth="10" last="true">
-	 	
-		 	<aui:fieldset>
-		 	
-		 	<aui:button type="submit" value='<%= res.getString("formlabel.actionadd") %>' onClick='onAdd();' />
-		 	<aui:button type="submit" value='<%= res.getString("formlabel.actionedit") %>' onClick='onEdit();' />	 	
-		 	<aui:button type="submit" value='<%= res.getString("formlabel.actiondelete") %>' onClick='onDelete();' />
-		 	
-		 	</aui:fieldset>
-	 	
-	 	</aui:column>
-	 	
-	 	</aui:layout>
-	 	
-	 	</aui:form>
-	 	
-	<portlet:renderURL var="listURL">
-	    <portlet:param name="mvcPath" value="/jsp/list.jsp" />
-	</portlet:renderURL>
-	
-	<p><a href="<%= listURL %>">&larr; List</a></p>
-	 	
- 	<%
- 	}
- } catch (Exception e) {
-	error = e.getMessage();
-	System.out.println("Error view.jsp: "+error);
- }
 %>
+
+<p>
+<%= res.getString("javax.portlet.title") %>
+</p>
+
+<p>
+<%= res.getString("javax.portlet.welcome") %>
+</p>
+
+<p>
+<%= res.getString("javax.portlet.welcome-desc") %>
+</p>
+
+
+<ul>
+<li><a href="<%= res.getString("javax.portlet.welcome-link1") %>"> Mpwc portlet </a></li>
+<li><a href="<%= res.getString("javax.portlet.welcome-link2") %>"> Mpwc-worker portlet </a></li>
+<li><a href="<%= res.getString("javax.portlet.welcome-link3") %>"> Mpwc-cooler theme</a></li>
+</ul>
+
+<p>
+R.Sicart
+</p> 	
