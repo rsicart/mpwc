@@ -4,6 +4,8 @@
 	<author>rsicart</author>
 	<namespace>tools</namespace>
 
+	<!-- Begin MPWC Worker -->
+	
 	<entity name="Worker" table="tbl_mpwc_workers" local-service="true" remote-service="true">
 
 		<!-- PK fields -->
@@ -31,8 +33,17 @@
 		<column name="phone" type="String" />
 		<column name="comments" type="String" />
 
+		<!-- FK fields -->
 		
-		<column name="statusId" type="long" /> 
+		<column name="statusId" type="long" />
+		   
+		<!-- Relation m:n  -->
+        <column 
+        	name="projectList" 
+        	type="Collection" 
+        	entity="Project"  
+        	mapping-table="tbl_mpwc_worker_project" 
+        />
 		
 		<!-- Order -->
 		<order by="asc">
@@ -94,5 +105,87 @@
 		   mapping-key="statusId" />
         
     </entity>
+    
+    <!-- End MPWC Worker -->
+    
+    <!-- Begin MPWC Project -->
+    
+	<entity name="Project" table="tbl_mpwc_projects" local-service="true" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="projectId" type="long" primary="true" id-type="sequence" id-param="seq_project_projectid"/>
+		
+		<!-- Group instance --> 
+
+		<column name="groupId" type="long" /> 
+		
+		<!-- Audit fields --> 
+		
+		<column name="companyId" type="long" /> 	
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		
+		<column name="name" type="String" />
+		<column name="type" type="String" />
+		<column name="descShort" type="String" />
+		<column name="descFull" type="String" />
+		<column name="costEstimatedEuros" type="double" />
+		<column name="timeEstimatedHours" type="long" />
+		<column name="canSetWorkerHours" type="boolean" />
+		<column name="startDate" type="Date" />
+		<column name="endDate" type="Date" />
+		<column name="comments" type="String" />
+		
+		<!-- FK fields -->
+		<column name="projectStatusId" type="long" />
+		
+		<!-- Relation m:n  -->
+        <column name="workerList" type="Collection" entity="Worker"  mapping-table="tbl_mpwc_worker_project" /> 
+		
+		<!-- Order -->
+		
+		<order by="asc">
+			<order-column name="projectId" />
+		</order>
+		
+		<!-- Finder Methods -->
+		
+		<finder name="G_Name" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="name"></finder-column>
+        </finder>
+        
+        <finder name="G_Type" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="type"></finder-column>
+        </finder>
+        
+        <finder name="GroupId" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+        </finder>
+        
+        <finder name="CompanyId" return-type="Collection">
+            <finder-column name="companyId"></finder-column>
+        </finder>
+		
+	</entity>
+	
+    <entity name="ProjectStatus" local-service="true" table="tbl_mpwc_projectstatus">
+        <column name="projectStatusId" type="long" primary="true"></column>
+        <column name="desc_en_US" type="String"></column>
+        <column name="desc_es_ES" type="String"></column>
+        <column name="desc_ca_ES" type="String"></column>
+        <column
+		   name="projectStatus"
+		   type="Collection"
+		   entity="Project"
+		   mapping-key="projectStatusId" />
+        
+    </entity>
+    
+    <!-- End MPWC Project -->
 	
 </service-builder>

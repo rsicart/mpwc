@@ -837,6 +837,10 @@ public class StatusPersistenceImpl extends BasePersistenceImpl<Status>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = ProjectPersistence.class)
+	protected ProjectPersistence projectPersistence;
+	@BeanReference(type = ProjectStatusPersistence.class)
+	protected ProjectStatusPersistence projectStatusPersistence;
 	@BeanReference(type = StatusPersistence.class)
 	protected StatusPersistence statusPersistence;
 	@BeanReference(type = WorkerPersistence.class)

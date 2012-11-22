@@ -7,6 +7,50 @@
 			<access>PROPERTY</access>
 		</persistence-unit-defaults>
 	</persistence-unit-metadata>
+	<mapped-superclass class="com.mpwc.model.impl.ProjectModelImpl">
+		<attributes>
+			<id name="projectId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="name" />
+			<basic name="type">
+				<column name="TYPE_" />
+			</basic>
+			<basic name="descShort" />
+			<basic name="descFull" />
+			<basic name="costEstimatedEuros" />
+			<basic name="timeEstimatedHours" />
+			<basic name="canSetWorkerHours" />
+			<basic name="startDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="endDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="comments" />
+			<basic name="projectStatusId" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="com.mpwc.model.impl.ProjectStatusModelImpl">
+		<attributes>
+			<id name="projectStatusId" />
+			<basic name="desc_en_US" />
+			<basic name="desc_es_ES" />
+			<basic name="desc_ca_ES" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.mpwc.model.impl.StatusModelImpl">
 		<attributes>
 			<id name="statusId" />
@@ -44,6 +88,14 @@
 			<transient name="userUuid" />
 		</attributes>
 	</mapped-superclass>
+	<entity class="com.mpwc.model.impl.ProjectImpl" name="Project">
+		<table name="tbl_mpwc_projects" />
+		<attributes />
+	</entity>
+	<entity class="com.mpwc.model.impl.ProjectStatusImpl" name="ProjectStatus">
+		<table name="tbl_mpwc_projectstatus" />
+		<attributes />
+	</entity>
 	<entity class="com.mpwc.model.impl.StatusImpl" name="Status">
 		<table name="tbl_mpwc_workerstatus" />
 		<attributes />

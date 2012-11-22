@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.mpwc.service.ProjectLocalService" class="com.mpwc.service.impl.ProjectLocalServiceImpl" />
+	<bean id="com.mpwc.service.ProjectService" class="com.mpwc.service.impl.ProjectServiceImpl" />
+	<bean id="com.mpwc.service.persistence.ProjectPersistence" class="com.mpwc.service.persistence.ProjectPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.ProjectStatusLocalService" class="com.mpwc.service.impl.ProjectStatusLocalServiceImpl" />
+	<bean id="com.mpwc.service.ProjectStatusService" class="com.mpwc.service.impl.ProjectStatusServiceImpl" />
+	<bean id="com.mpwc.service.persistence.ProjectStatusPersistence" class="com.mpwc.service.persistence.ProjectStatusPersistenceImpl" parent="basePersistence" />
 	<bean id="com.mpwc.service.StatusLocalService" class="com.mpwc.service.impl.StatusLocalServiceImpl" />
 	<bean id="com.mpwc.service.StatusService" class="com.mpwc.service.impl.StatusServiceImpl" />
 	<bean id="com.mpwc.service.persistence.StatusPersistence" class="com.mpwc.service.persistence.StatusPersistenceImpl" parent="basePersistence" />

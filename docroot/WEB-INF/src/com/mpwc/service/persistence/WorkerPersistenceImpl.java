@@ -17,12 +17,18 @@ package com.mpwc.service.persistence;
 import com.liferay.portal.NoSuchModelException;
 import com.liferay.portal.kernel.bean.BeanReference;
 import com.liferay.portal.kernel.cache.CacheRegistryUtil;
+import com.liferay.portal.kernel.dao.jdbc.MappingSqlQuery;
+import com.liferay.portal.kernel.dao.jdbc.MappingSqlQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.jdbc.RowMapper;
+import com.liferay.portal.kernel.dao.jdbc.SqlUpdate;
+import com.liferay.portal.kernel.dao.jdbc.SqlUpdateFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderCacheUtil;
 import com.liferay.portal.kernel.dao.orm.FinderPath;
 import com.liferay.portal.kernel.dao.orm.Query;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.SQLQuery;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -32,6 +38,7 @@ import com.liferay.portal.kernel.util.InstanceFactory;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -54,6 +61,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The persistence implementation for the worker service.
@@ -409,6 +417,16 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	@Override
 	protected Worker removeImpl(Worker worker) throws SystemException {
 		worker = toUnwrappedModel(worker);
+
+		try {
+			clearProjects.clear(worker.getPrimaryKey());
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
 
 		Session session = null;
 
@@ -5382,6 +5400,482 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	}
 
 	/**
+	 * Returns all the projects associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @return the projects associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.Project> getProjects(long pk)
+		throws SystemException {
+		return getProjects(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the projects associated with the worker.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param pk the primary key of the worker
+	 * @param start the lower bound of the range of workers
+	 * @param end the upper bound of the range of workers (not inclusive)
+	 * @return the range of projects associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.Project> getProjects(long pk, int start, int end)
+		throws SystemException {
+		return getProjects(pk, start, end, null);
+	}
+
+	public static final FinderPath FINDER_PATH_GET_PROJECTS = new FinderPath(com.mpwc.model.impl.ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			WorkerModelImpl.FINDER_CACHE_ENABLED_TOOLS_TBL_MPWC_WORKER_PROJECT,
+			com.mpwc.model.impl.ProjectImpl.class,
+			WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME,
+			"getProjects",
+			new String[] {
+				Long.class.getName(), "java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+
+	static {
+		FINDER_PATH_GET_PROJECTS.setCacheKeyGeneratorCacheName(null);
+	}
+
+	/**
+	 * Returns an ordered range of all the projects associated with the worker.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param pk the primary key of the worker
+	 * @param start the lower bound of the range of workers
+	 * @param end the upper bound of the range of workers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of projects associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.Project> getProjects(long pk, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] { pk, start, end, orderByComparator };
+
+		List<com.mpwc.model.Project> list = (List<com.mpwc.model.Project>)FinderCacheUtil.getResult(FINDER_PATH_GET_PROJECTS,
+				finderArgs, this);
+
+		if (list == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				String sql = null;
+
+				if (orderByComparator != null) {
+					sql = _SQL_GETPROJECTS.concat(ORDER_BY_CLAUSE)
+										  .concat(orderByComparator.getOrderBy());
+				}
+				else {
+					sql = _SQL_GETPROJECTS.concat(com.mpwc.model.impl.ProjectModelImpl.ORDER_BY_SQL);
+				}
+
+				SQLQuery q = session.createSQLQuery(sql);
+
+				q.addEntity("tbl_mpwc_projects",
+					com.mpwc.model.impl.ProjectImpl.class);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(pk);
+
+				list = (List<com.mpwc.model.Project>)QueryUtil.list(q,
+						getDialect(), start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_GET_PROJECTS,
+						finderArgs);
+				}
+				else {
+					projectPersistence.cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_GET_PROJECTS,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	public static final FinderPath FINDER_PATH_GET_PROJECTS_SIZE = new FinderPath(com.mpwc.model.impl.ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			WorkerModelImpl.FINDER_CACHE_ENABLED_TOOLS_TBL_MPWC_WORKER_PROJECT,
+			Long.class,
+			WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME,
+			"getProjectsSize", new String[] { Long.class.getName() });
+
+	static {
+		FINDER_PATH_GET_PROJECTS_SIZE.setCacheKeyGeneratorCacheName(null);
+	}
+
+	/**
+	 * Returns the number of projects associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @return the number of projects associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int getProjectsSize(long pk) throws SystemException {
+		Object[] finderArgs = new Object[] { pk };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_GET_PROJECTS_SIZE,
+				finderArgs, this);
+
+		if (count == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				SQLQuery q = session.createSQLQuery(_SQL_GETPROJECTSSIZE);
+
+				q.addScalar(COUNT_COLUMN_NAME,
+					com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(pk);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_GET_PROJECTS_SIZE,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	public static final FinderPath FINDER_PATH_CONTAINS_PROJECT = new FinderPath(com.mpwc.model.impl.ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			WorkerModelImpl.FINDER_CACHE_ENABLED_TOOLS_TBL_MPWC_WORKER_PROJECT,
+			Boolean.class,
+			WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME,
+			"containsProject",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns <code>true</code> if the project is associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPK the primary key of the project
+	 * @return <code>true</code> if the project is associated with the worker; <code>false</code> otherwise
+	 * @throws SystemException if a system exception occurred
+	 */
+	public boolean containsProject(long pk, long projectPK)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { pk, projectPK };
+
+		Boolean value = (Boolean)FinderCacheUtil.getResult(FINDER_PATH_CONTAINS_PROJECT,
+				finderArgs, this);
+
+		if (value == null) {
+			try {
+				value = Boolean.valueOf(containsProject.contains(pk, projectPK));
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (value == null) {
+					value = Boolean.FALSE;
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_CONTAINS_PROJECT,
+					finderArgs, value);
+			}
+		}
+
+		return value.booleanValue();
+	}
+
+	/**
+	 * Returns <code>true</code> if the worker has any projects associated with it.
+	 *
+	 * @param pk the primary key of the worker to check for associations with projects
+	 * @return <code>true</code> if the worker has any projects associated with it; <code>false</code> otherwise
+	 * @throws SystemException if a system exception occurred
+	 */
+	public boolean containsProjects(long pk) throws SystemException {
+		if (getProjectsSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
+	 * Adds an association between the worker and the project. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPK the primary key of the project
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void addProject(long pk, long projectPK) throws SystemException {
+		try {
+			addProject.add(pk, projectPK);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Adds an association between the worker and the project. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param project the project
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void addProject(long pk, com.mpwc.model.Project project)
+		throws SystemException {
+		try {
+			addProject.add(pk, project.getPrimaryKey());
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Adds an association between the worker and the projects. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPKs the primary keys of the projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void addProjects(long pk, long[] projectPKs)
+		throws SystemException {
+		try {
+			for (long projectPK : projectPKs) {
+				addProject.add(pk, projectPK);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Adds an association between the worker and the projects. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projects the projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void addProjects(long pk, List<com.mpwc.model.Project> projects)
+		throws SystemException {
+		try {
+			for (com.mpwc.model.Project project : projects) {
+				addProject.add(pk, project.getPrimaryKey());
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Clears all associations between the worker and its projects. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker to clear the associated projects from
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void clearProjects(long pk) throws SystemException {
+		try {
+			clearProjects.clear(pk);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Removes the association between the worker and the project. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPK the primary key of the project
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeProject(long pk, long projectPK)
+		throws SystemException {
+		try {
+			removeProject.remove(pk, projectPK);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Removes the association between the worker and the project. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param project the project
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeProject(long pk, com.mpwc.model.Project project)
+		throws SystemException {
+		try {
+			removeProject.remove(pk, project.getPrimaryKey());
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Removes the association between the worker and the projects. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPKs the primary keys of the projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeProjects(long pk, long[] projectPKs)
+		throws SystemException {
+		try {
+			for (long projectPK : projectPKs) {
+				removeProject.remove(pk, projectPK);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Removes the association between the worker and the projects. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projects the projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeProjects(long pk, List<com.mpwc.model.Project> projects)
+		throws SystemException {
+		try {
+			for (com.mpwc.model.Project project : projects) {
+				removeProject.remove(pk, project.getPrimaryKey());
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Sets the projects associated with the worker, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projectPKs the primary keys of the projects to be associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void setProjects(long pk, long[] projectPKs)
+		throws SystemException {
+		try {
+			Set<Long> projectPKSet = SetUtil.fromArray(projectPKs);
+
+			List<com.mpwc.model.Project> projects = getProjects(pk);
+
+			for (com.mpwc.model.Project project : projects) {
+				if (!projectPKSet.remove(project.getPrimaryKey())) {
+					removeProject.remove(pk, project.getPrimaryKey());
+				}
+			}
+
+			for (Long projectPK : projectPKSet) {
+				addProject.add(pk, projectPK);
+			}
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
+	 * Sets the projects associated with the worker, removing and adding associations as necessary. Also notifies the appropriate model listeners and clears the mapping table finder cache.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param projects the projects to be associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void setProjects(long pk, List<com.mpwc.model.Project> projects)
+		throws SystemException {
+		try {
+			long[] projectPKs = new long[projects.size()];
+
+			for (int i = 0; i < projects.size(); i++) {
+				com.mpwc.model.Project project = projects.get(i);
+
+				projectPKs[i] = project.getPrimaryKey();
+			}
+
+			setProjects(pk, projectPKs);
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			FinderCacheUtil.clearCache(WorkerModelImpl.MAPPING_TABLE_TOOLS_TBL_MPWC_WORKER_PROJECT_NAME);
+		}
+	}
+
+	/**
 	 * Initializes the worker persistence.
 	 */
 	public void afterPropertiesSet() {
@@ -5404,6 +5898,12 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 				_log.error(e);
 			}
 		}
+
+		containsProject = new ContainsProject();
+
+		addProject = new AddProject();
+		clearProjects = new ClearProjects();
+		removeProject = new RemoveProject();
 	}
 
 	public void destroy() {
@@ -5412,6 +5912,10 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = ProjectPersistence.class)
+	protected ProjectPersistence projectPersistence;
+	@BeanReference(type = ProjectStatusPersistence.class)
+	protected ProjectStatusPersistence projectStatusPersistence;
 	@BeanReference(type = StatusPersistence.class)
 	protected StatusPersistence statusPersistence;
 	@BeanReference(type = WorkerPersistence.class)
@@ -5420,10 +5924,177 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	protected ResourcePersistence resourcePersistence;
 	@BeanReference(type = UserPersistence.class)
 	protected UserPersistence userPersistence;
+	protected ContainsProject containsProject;
+	protected AddProject addProject;
+	protected ClearProjects clearProjects;
+	protected RemoveProject removeProject;
+
+	protected class ContainsProject {
+		protected ContainsProject() {
+			_mappingSqlQuery = MappingSqlQueryFactoryUtil.getMappingSqlQuery(getDataSource(),
+					_SQL_CONTAINSPROJECT,
+					new int[] { java.sql.Types.BIGINT, java.sql.Types.BIGINT },
+					RowMapper.COUNT);
+		}
+
+		protected boolean contains(long workerId, long projectId) {
+			List<Integer> results = _mappingSqlQuery.execute(new Object[] {
+						new Long(workerId), new Long(projectId)
+					});
+
+			if (results.size() > 0) {
+				Integer count = results.get(0);
+
+				if (count.intValue() > 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private MappingSqlQuery<Integer> _mappingSqlQuery;
+	}
+
+	protected class AddProject {
+		protected AddProject() {
+			_sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(getDataSource(),
+					"INSERT INTO tools_tbl_mpwc_worker_project (workerId, projectId) VALUES (?, ?)",
+					new int[] { java.sql.Types.BIGINT, java.sql.Types.BIGINT });
+		}
+
+		protected void add(long workerId, long projectId)
+			throws SystemException {
+			if (!containsProject.contains(workerId, projectId)) {
+				ModelListener<com.mpwc.model.Project>[] projectListeners = projectPersistence.getListeners();
+
+				for (ModelListener<Worker> listener : listeners) {
+					listener.onBeforeAddAssociation(workerId,
+						com.mpwc.model.Project.class.getName(), projectId);
+				}
+
+				for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+					listener.onBeforeAddAssociation(projectId,
+						Worker.class.getName(), workerId);
+				}
+
+				_sqlUpdate.update(new Object[] {
+						new Long(workerId), new Long(projectId)
+					});
+
+				for (ModelListener<Worker> listener : listeners) {
+					listener.onAfterAddAssociation(workerId,
+						com.mpwc.model.Project.class.getName(), projectId);
+				}
+
+				for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+					listener.onAfterAddAssociation(projectId,
+						Worker.class.getName(), workerId);
+				}
+			}
+		}
+
+		private SqlUpdate _sqlUpdate;
+	}
+
+	protected class ClearProjects {
+		protected ClearProjects() {
+			_sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(getDataSource(),
+					"DELETE FROM tools_tbl_mpwc_worker_project WHERE workerId = ?",
+					new int[] { java.sql.Types.BIGINT });
+		}
+
+		protected void clear(long workerId) throws SystemException {
+			ModelListener<com.mpwc.model.Project>[] projectListeners = projectPersistence.getListeners();
+
+			List<com.mpwc.model.Project> projects = null;
+
+			if ((listeners.length > 0) || (projectListeners.length > 0)) {
+				projects = getProjects(workerId);
+
+				for (com.mpwc.model.Project project : projects) {
+					for (ModelListener<Worker> listener : listeners) {
+						listener.onBeforeRemoveAssociation(workerId,
+							com.mpwc.model.Project.class.getName(),
+							project.getPrimaryKey());
+					}
+
+					for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+						listener.onBeforeRemoveAssociation(project.getPrimaryKey(),
+							Worker.class.getName(), workerId);
+					}
+				}
+			}
+
+			_sqlUpdate.update(new Object[] { new Long(workerId) });
+
+			if ((listeners.length > 0) || (projectListeners.length > 0)) {
+				for (com.mpwc.model.Project project : projects) {
+					for (ModelListener<Worker> listener : listeners) {
+						listener.onAfterRemoveAssociation(workerId,
+							com.mpwc.model.Project.class.getName(),
+							project.getPrimaryKey());
+					}
+
+					for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+						listener.onAfterRemoveAssociation(project.getPrimaryKey(),
+							Worker.class.getName(), workerId);
+					}
+				}
+			}
+		}
+
+		private SqlUpdate _sqlUpdate;
+	}
+
+	protected class RemoveProject {
+		protected RemoveProject() {
+			_sqlUpdate = SqlUpdateFactoryUtil.getSqlUpdate(getDataSource(),
+					"DELETE FROM tools_tbl_mpwc_worker_project WHERE workerId = ? AND projectId = ?",
+					new int[] { java.sql.Types.BIGINT, java.sql.Types.BIGINT });
+		}
+
+		protected void remove(long workerId, long projectId)
+			throws SystemException {
+			if (containsProject.contains(workerId, projectId)) {
+				ModelListener<com.mpwc.model.Project>[] projectListeners = projectPersistence.getListeners();
+
+				for (ModelListener<Worker> listener : listeners) {
+					listener.onBeforeRemoveAssociation(workerId,
+						com.mpwc.model.Project.class.getName(), projectId);
+				}
+
+				for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+					listener.onBeforeRemoveAssociation(projectId,
+						Worker.class.getName(), workerId);
+				}
+
+				_sqlUpdate.update(new Object[] {
+						new Long(workerId), new Long(projectId)
+					});
+
+				for (ModelListener<Worker> listener : listeners) {
+					listener.onAfterRemoveAssociation(workerId,
+						com.mpwc.model.Project.class.getName(), projectId);
+				}
+
+				for (ModelListener<com.mpwc.model.Project> listener : projectListeners) {
+					listener.onAfterRemoveAssociation(projectId,
+						Worker.class.getName(), workerId);
+				}
+			}
+		}
+
+		private SqlUpdate _sqlUpdate;
+	}
+
 	private static final String _SQL_SELECT_WORKER = "SELECT worker FROM Worker worker";
 	private static final String _SQL_SELECT_WORKER_WHERE = "SELECT worker FROM Worker worker WHERE ";
 	private static final String _SQL_COUNT_WORKER = "SELECT COUNT(worker) FROM Worker worker";
 	private static final String _SQL_COUNT_WORKER_WHERE = "SELECT COUNT(worker) FROM Worker worker WHERE ";
+	private static final String _SQL_GETPROJECTS = "SELECT {tbl_mpwc_projects.*} FROM tbl_mpwc_projects INNER JOIN tools_tbl_mpwc_worker_project ON (tools_tbl_mpwc_worker_project.projectId = tbl_mpwc_projects.projectId) WHERE (tools_tbl_mpwc_worker_project.workerId = ?)";
+	private static final String _SQL_GETPROJECTSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tools_tbl_mpwc_worker_project WHERE workerId = ?";
+	private static final String _SQL_CONTAINSPROJECT = "SELECT COUNT(*) AS COUNT_VALUE FROM tools_tbl_mpwc_worker_project WHERE workerId = ? AND projectId = ?";
 	private static final String _FINDER_COLUMN_NIF_NIF_1 = "worker.nif IS NULL";
 	private static final String _FINDER_COLUMN_NIF_NIF_2 = "worker.nif = ?";
 	private static final String _FINDER_COLUMN_NIF_NIF_3 = "(worker.nif IS NULL OR worker.nif = ?)";

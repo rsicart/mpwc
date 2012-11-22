@@ -1,6 +1,34 @@
 <?xml version="1.0"?>
 
 <model-hints>
+	<model name="com.mpwc.model.Project">
+		<field name="projectId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="type" type="String" />
+		<field name="descShort" type="String" />
+		<field name="descFull" type="String" />
+		<field name="costEstimatedEuros" type="double" />
+		<field name="timeEstimatedHours" type="long" />
+		<field name="canSetWorkerHours" type="boolean" />
+		<field name="startDate" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
+		<field name="endDate" type="Date">
+			<hint name="show-time">false</hint>
+		</field>
+		<field name="comments" type="String" />
+		<field name="projectStatusId" type="long" />
+	</model>
+	<model name="com.mpwc.model.ProjectStatus">
+		<field name="projectStatusId" type="long" />
+		<field name="desc_en_US" type="String" />
+		<field name="desc_es_ES" type="String" />
+		<field name="desc_ca_ES" type="String" />
+	</model>
 	<model name="com.mpwc.model.Status">
 		<field name="statusId" type="long" />
 		<field name="desc_en_US" type="String" />

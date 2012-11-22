@@ -2,8 +2,42 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="com.mpwc.model.Project" />
+	<import class="com.mpwc.model.ProjectStatus" />
 	<import class="com.mpwc.model.Status" />
 	<import class="com.mpwc.model.Worker" />
+	<class name="com.mpwc.model.impl.ProjectImpl" table="tbl_mpwc_projects">
+		<cache usage="read-write" />
+		<id name="projectId" type="long">
+			<generator class="sequence">
+				<param name="sequence">seq_project_projectid</param>
+			</generator>
+		</id>
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="name" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="type" type="com.liferay.portal.dao.orm.hibernate.StringType" column="type_" />
+		<property name="descShort" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="descFull" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="costEstimatedEuros" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="timeEstimatedHours" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="canSetWorkerHours" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="startDate" type="org.hibernate.type.TimestampType" />
+		<property name="endDate" type="org.hibernate.type.TimestampType" />
+		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="projectStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+	</class>
+	<class name="com.mpwc.model.impl.ProjectStatusImpl" table="tbl_mpwc_projectstatus">
+		<cache usage="read-write" />
+		<id name="projectStatusId" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="desc_en_US" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="desc_es_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="desc_ca_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
 	<class name="com.mpwc.model.impl.StatusImpl" table="tbl_mpwc_workerstatus">
 		<cache usage="read-write" />
 		<id name="statusId" type="long">
