@@ -15,9 +15,13 @@
 		<field name="timeEstimatedHours" type="long" />
 		<field name="canSetWorkerHours" type="boolean" />
 		<field name="startDate" type="Date">
+			<hint name="year-range-delta">5</hint>
+			<hint name="year-range-past">false</hint>
 			<hint name="show-time">false</hint>
 		</field>
 		<field name="endDate" type="Date">
+			<hint name="year-range-delta">5</hint>
+			<hint name="year-range-past">false</hint>
 			<hint name="show-time">false</hint>
 		</field>
 		<field name="comments" type="String" />
