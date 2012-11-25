@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<custom-sql>
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.getProjectsByName">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				tbl_mpwc_projects
+			WHERE
+				(tbl_mpwc_projects.name like ?)
+		]]>
+	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.getProjectsByStatusDesc">
+		<![CDATA[
+			SELECT
+				p.*
+			FROM
+				tbl_mpwc_projects p
+			INNER JOIN
+				tbl_mpwc_projectstatus ps
+			ON
+				p.projectstatusid = ps.projectstatusid
+			WHERE
+				(ps.desc_en_US like ? OR ps.desc_es_ES like ? OR ps.desc_ca_ES like ?)
+		]]>
+	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.getProjectsByFilters">
+		<![CDATA[	
+			SELECT
+				p.*
+			FROM
+				tbl_mpwc_projects p
+			INNER JOIN
+				tbl_mpwc_projectstatus ps
+			ON
+				p.projectstatusid = ps.projectstatusid
+			WHERE
+				(ps.desc_en_US LIKE ? OR ps.desc_es_ES LIKE ? OR ps.desc_ca_ES LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.name LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.type_ LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.descshort LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.startdate >= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.enddate <= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.costestimatedeuros = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.timeestimatedhours = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.cansetworkerhours = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.comments LIKE ? [$AND_OR_NULL_CHECK$] )
+		]]>
+	</sql>
+</custom-sql>

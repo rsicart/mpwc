@@ -14,7 +14,15 @@
 
 package com.mpwc.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.mpwc.model.Project;
+import com.mpwc.model.Worker;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
+import com.mpwc.service.persistence.ProjectFinderUtil;
 
 /**
  * The implementation of the project local service.
@@ -36,4 +44,26 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.mpwc.service.ProjectLocalServiceUtil} to access the project local service.
 	 */
+	public List<Project> getProjectsByName(String name) throws PortalException,
+	SystemException {
+
+		// return bookPersistence.findByTitle(title);
+		return ProjectFinderUtil.getProjectsByName("%" + name + "%");
+	}
+	
+	public List<Project> getProjectsByStatusDesc(String desc) throws PortalException,
+	SystemException {
+
+		// return bookPersistence.findByTitle(title);
+		return ProjectFinderUtil.getProjectsByStatusDesc("%" + desc + "%");
+	}
+	
+	public List<Project> getProjectsByFilters(String desc, String name, String type, String descShort,
+			Date startDate, Date endDate, Double costEstimatedeuros, long timeEstimatedHours, 
+			boolean canSetWorkerHours, String comments) throws SystemException {
+		return ProjectFinderUtil.getProjectsByFilters(desc, name, type, descShort,
+				startDate, endDate, costEstimatedeuros, timeEstimatedHours, 
+				canSetWorkerHours, comments);
+	}
+	
 }

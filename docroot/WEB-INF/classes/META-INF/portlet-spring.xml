@@ -4,6 +4,7 @@
 	<bean id="com.mpwc.service.ProjectLocalService" class="com.mpwc.service.impl.ProjectLocalServiceImpl" />
 	<bean id="com.mpwc.service.ProjectService" class="com.mpwc.service.impl.ProjectServiceImpl" />
 	<bean id="com.mpwc.service.persistence.ProjectPersistence" class="com.mpwc.service.persistence.ProjectPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.persistence.ProjectFinder" class="com.mpwc.service.persistence.ProjectFinderImpl" parent="basePersistence" />
 	<bean id="com.mpwc.service.ProjectStatusLocalService" class="com.mpwc.service.impl.ProjectStatusLocalServiceImpl" />
 	<bean id="com.mpwc.service.ProjectStatusService" class="com.mpwc.service.impl.ProjectStatusServiceImpl" />
 	<bean id="com.mpwc.service.persistence.ProjectStatusPersistence" class="com.mpwc.service.persistence.ProjectStatusPersistenceImpl" parent="basePersistence" />
