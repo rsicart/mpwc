@@ -100,10 +100,13 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 	public List<Project> getProjectsByFilters(String desc, String name, String type, String descShort, 
 			Date startDate, Date endDate, Double costEstimatedEuros, long timeEstimatedHours, 
 			boolean canSetWorkerHours, String comments) throws SystemException {
-		 Session session = null;
+		 
+		Session session = null;
 		 
 		 Timestamp startDateTs = CalendarUtil.getTimestamp(startDate);
 		 Timestamp endDateTs = CalendarUtil.getTimestamp(endDate);
+		 
+		 System.out.println("ProjectFinder getProjectsByFilters start TS:"+startDateTs+" - end TS: "+endDateTs);
 		 
 		 try {
 			 session = openSession();
@@ -142,7 +145,7 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 			 qPos.add(canSetWorkerHours);
 			 qPos.add("%"+comments+"%");
 			 qPos.add(comments);
-			 System.out.println("ProjectFinderImpl getProjectsByFilters sql"+ sql.toString() +" *** qPos ->"+ qPos.toString() );
+			 System.out.println("ProjectFinderImpl getProjectsByFilters sql"+ sql.toString() +" *** query ->");
 			 return (List)query.list();
 		 } catch (Exception e) {
 				throw new SystemException(e);

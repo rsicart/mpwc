@@ -41,10 +41,10 @@
 				(p.name LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(p.type_ LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(p.descshort LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
-				(p.startdate >= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
-				(p.enddate <= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
-				(p.costestimatedeuros = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
-				(p.timeestimatedhours = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.startdate >= ? OR (CAST(? AS TIMESTAMP) IS NULL) ) [$AND_OR_CONNECTOR$]
+				(p.enddate <= ? OR (CAST(? AS TIMESTAMP) IS NULL) ) [$AND_OR_CONNECTOR$]
+				(p.costestimatedeuros >= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(p.timeestimatedhours >= ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(p.cansetworkerhours = ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(p.comments LIKE ? [$AND_OR_NULL_CHECK$] )
 		]]>
