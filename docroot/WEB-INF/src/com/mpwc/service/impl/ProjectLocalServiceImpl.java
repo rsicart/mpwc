@@ -20,6 +20,7 @@ import java.util.List;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.mpwc.model.Project;
+import com.mpwc.model.Worker;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
 import com.mpwc.service.persistence.ProjectFinderUtil;
 
@@ -94,4 +95,24 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		return projectPersistence.update(p, false);
 	}
 	
+	/* Worker related operations 
+	 * (see ProjectPersistenceImpl.java to find more methods to add) 
+	 */
+	public List<Worker> getWorkers(long projectId) throws SystemException {
+		return projectPersistence.getWorkers(projectId);
+	}
+	
+	public void addWorker(long projectId, long workerId) throws SystemException {
+		projectPersistence.addWorker(projectId, workerId);
+	}
+	public void addWorker(long projectId, Worker worker) throws SystemException {
+		projectPersistence.addWorker(projectId, worker);
+	}
+	
+	public void removeWorker(long projectId, long workerId) throws SystemException {
+		projectPersistence.removeWorker(projectId, workerId);
+	}
+	public void removeWorker(long projectId, Worker worker) throws SystemException {
+		projectPersistence.removeWorker(projectId, worker);
+	}
 }
