@@ -20,7 +20,6 @@ import java.util.List;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.mpwc.model.Project;
-import com.mpwc.model.Worker;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
 import com.mpwc.service.persistence.ProjectFinderUtil;
 
@@ -64,6 +63,35 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		return ProjectFinderUtil.getProjectsByFilters(desc, name, type, descShort,
 				startDate, endDate, costEstimatedeuros, timeEstimatedHours, 
 				canSetWorkerHours, comments);
+	}
+	
+	public Project add(Project project) throws SystemException, PortalException {
+		
+		//create new project
+		Project p = projectPersistence.create(counterLocalService.increment(Project.class.getName()));
+		
+		//add resources
+		resourceLocalService.addResources(p.getCompanyId(), p.getGroupId(), Project.class.getName(), false);
+		
+		//set project properties
+		p.setName(project.getName());
+		p.setType(project.getType());
+		p.setDescShort(project.getDescShort());		
+		p.setDescFull(project.getDescFull());
+		p.setStartDate(project.getStartDate());
+		p.setEndDate(project.getEndDate());
+		p.setCostEstimatedEuros(project.getCostEstimatedEuros());
+		p.setTimeEstimatedHours(project.getTimeEstimatedHours());
+		p.setCanSetWorkerHours(project.getCanSetWorkerHours());
+		p.setComments(project.getComments());
+		p.setProjectStatusId(project.getProjectStatusId());
+		p.setCreateDate(project.getCreateDate());
+		
+		//other properties
+		p.setCompanyId(project.getCompanyId());
+		p.setGroupId(project.getGroupId());
+		
+		return projectPersistence.update(p, false);
 	}
 	
 }
