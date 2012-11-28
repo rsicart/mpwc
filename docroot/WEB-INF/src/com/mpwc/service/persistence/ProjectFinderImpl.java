@@ -60,6 +60,7 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 	public static String FIND_PROJECTS_BY_NAME = ProjectFinderImpl.class.getName()+ ".getProjectsByName";
 	public static String FIND_PROJECTS_BY_STATUS_DESC = ProjectFinderImpl.class.getName()+ ".getProjectsByStatusDesc";
 	public static String FIND_PROJECTS_BY_FILTERS = ProjectFinderImpl.class.getName()+ ".getProjectsByFilters";
+	public static String ADD_PROJECT_WORKER = ProjectFinderImpl.class.getName()+ ".addProjectWorker";
 	
 	public List<Project> getProjectsByName(String name) throws SystemException {
 		 Session session = null;
@@ -147,6 +148,26 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 			 qPos.add(comments);
 			 System.out.println("ProjectFinderImpl getProjectsByFilters sql"+ sql.toString() +" *** query ->");
 			 return (List)query.list();
+		 } catch (Exception e) {
+				throw new SystemException(e);
+		 } finally {
+			 closeSession(session);
+		 }
+	}
+	
+	public int addProjectWorker(long projectId, long workerId) throws SystemException{
+		 Session session = null;
+		 try {
+			 session = openSession();
+			 String sql = CustomSQLUtil.get(ADD_PROJECT_WORKER);
+			 SQLQuery query = session.createSQLQuery(sql);
+			 //query.addEntity("Project", ProjectImpl.class);
+			 QueryPos qPos = QueryPos.getInstance(query);
+			 qPos.add(workerId);
+			 qPos.add(projectId);
+			 int res = query.executeUpdate();
+			 System.out.println("ProjectFinderImpl addProjectWorker sql"+ sql.toString() +" *** result ->"+res);
+			 return res;
 		 } catch (Exception e) {
 				throw new SystemException(e);
 		 } finally {

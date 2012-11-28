@@ -103,10 +103,16 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	
 	public void addWorker(long projectId, long workerId) throws SystemException {
+		System.out.println("ProjectLocalServiceImpl addWorker "+workerId+" to project "+projectId);
 		projectPersistence.addWorker(projectId, workerId);
 	}
+	
 	public void addWorker(long projectId, Worker worker) throws SystemException {
 		projectPersistence.addWorker(projectId, worker);
+	}
+	
+	public void setWorkers(long projectId, List<Worker> workerList) throws SystemException {
+		projectPersistence.setWorkers(projectId, workerList);
 	}
 	
 	public void removeWorker(long projectId, long workerId) throws SystemException {
@@ -114,5 +120,11 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	public void removeWorker(long projectId, Worker worker) throws SystemException {
 		projectPersistence.removeWorker(projectId, worker);
+	}
+	
+	public int addProjectWorker(long projectId, long workerId) throws SystemException {
+		System.out.println("ProjectLocalServiceImpl addProjectWorker "+workerId+" to project "+projectId);
+		int res = ProjectFinderUtil.addProjectWorker(projectId, workerId);
+		return res;
 	}
 }

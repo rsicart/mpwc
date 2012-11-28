@@ -49,4 +49,11 @@
 				(p.comments LIKE ? [$AND_OR_NULL_CHECK$] )
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.addProjectWorker">
+		<![CDATA[
+			INSERT INTO tools_tbl_mpwc_worker_project(workerid, projectid)
+    		VALUES (?, ?)
+		]]>
+	</sql>
 </custom-sql>
