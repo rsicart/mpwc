@@ -127,4 +127,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		int res = ProjectFinderUtil.addProjectWorker(projectId, workerId);
 		return res;
 	}
+	
+	public boolean containsWorker(long projectId, long workerId) throws SystemException {
+		return projectPersistence.containsWorker(projectId, workerId);
+	}
 }
