@@ -123,8 +123,26 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	
 	public int addProjectWorker(long projectId, long workerId) throws SystemException {
+		//Bug LPS-29668 in liferay portal, dont uncomment until 6.2 (or 6.1.1 GA2 patched)
+		//projectPersistence.addWorker(projectId, workerId);
+		
+		//Temporal alternative solution, instead line above, use finder method below
 		System.out.println("ProjectLocalServiceImpl addProjectWorker "+workerId+" to project "+projectId);
 		int res = ProjectFinderUtil.addProjectWorker(projectId, workerId);
+		//refresh cache
+		projectPersistence.clearCache();
+		return res;
+	}	
+	
+	public int delProjectWorker(long projectId, long workerId) throws SystemException {
+		//Bug LPS-29668 in liferay portal, dont uncomment until 6.2 (or 6.1.1 GA2 patched)
+		//projectPersistence.removeWorker(projectId, workerId);
+		
+		//Temporal alternative solution, instead line above, use finder method below		
+		System.out.println("ProjectLocalServiceImpl delProjectWorker "+workerId+" from project "+projectId);
+		int res = ProjectFinderUtil.delProjectWorker(projectId, workerId);
+		//refresh cache
+		projectPersistence.clearCache();
 		return res;
 	}
 	

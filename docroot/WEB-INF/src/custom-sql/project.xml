@@ -56,4 +56,11 @@
     		VALUES (?, ?)
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.delProjectWorker">
+		<![CDATA[
+			DELETE FROM tools_tbl_mpwc_worker_project
+ 			WHERE workerid = ? AND projectid = ?
+		]]>
+	</sql>
 </custom-sql>
