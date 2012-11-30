@@ -45,4 +45,19 @@
 				(w.phone LIKE ? [$AND_OR_NULL_CHECK$] )			
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.WorkerFinderImpl.getProjects">
+		<![CDATA[
+			SELECT
+				p.*
+			FROM
+				tbl_mpwc_projects p
+			INNER JOIN
+				tools_tbl_mpwc_worker_project wp
+			ON
+				wp.projectid = p.projectid
+			WHERE
+				wp.workerid = ?
+		]]>
+	</sql>
 </custom-sql>

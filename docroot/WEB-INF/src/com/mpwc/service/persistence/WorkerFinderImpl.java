@@ -48,7 +48,9 @@ import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
+import com.mpwc.model.Project;
 import com.mpwc.model.Worker;
+import com.mpwc.model.impl.ProjectImpl;
 import com.mpwc.model.impl.WorkerImpl;
 
 public class WorkerFinderImpl extends BasePersistenceImpl implements WorkerFinder {
@@ -57,6 +59,7 @@ public class WorkerFinderImpl extends BasePersistenceImpl implements WorkerFinde
 	public static String FIND_WORKERS_BY_NAME = WorkerFinderImpl.class.getName()+ ".getWorkersByName";
 	public static String FIND_WORKERS_BY_STATUS_DESC = WorkerFinderImpl.class.getName()+ ".getWorkersByStatusDesc";
 	public static String FIND_WORKERS_BY_FILTERS = WorkerFinderImpl.class.getName()+ ".getWorkersByFilters";
+	public static String FIND_PROJECTS_BY_WORKER = WorkerFinderImpl.class.getName()+ ".getProjects";
 	
 	public List<Worker> getWorkersByName(String name) throws SystemException {
 		 Session session = null;
@@ -121,6 +124,23 @@ public class WorkerFinderImpl extends BasePersistenceImpl implements WorkerFinde
 			 qPos.add("%"+phone+"%");
 			 qPos.add(phone);
 			 System.out.println("WorkerFinderImpl getWorkersByFilters sql"+ sql.toString() +" *** qPos ->"+ qPos.toString() );
+			 return (List)query.list();
+		 } catch (Exception e) {
+				throw new SystemException(e);
+		 } finally {
+			 closeSession(session);
+		 }
+	}
+	
+	public List<Project> getProjects(long workerId) throws SystemException {
+		 Session session = null;
+		 try {
+			 session = openSession();
+			 String sql = CustomSQLUtil.get(FIND_PROJECTS_BY_WORKER);
+			 SQLQuery query = session.createSQLQuery(sql);
+			 query.addEntity("Project", ProjectImpl.class);
+			 QueryPos qPos = QueryPos.getInstance(query);
+			 qPos.add(workerId);
 			 return (List)query.list();
 		 } catch (Exception e) {
 				throw new SystemException(e);

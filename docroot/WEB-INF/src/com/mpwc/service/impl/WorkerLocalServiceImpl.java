@@ -28,6 +28,7 @@ import com.liferay.portal.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.mpwc.NoSuchWorkerException;
+import com.mpwc.model.Project;
 import com.mpwc.model.Worker;
 import com.mpwc.service.WorkerLocalServiceUtil;
 import com.mpwc.service.base.WorkerLocalServiceBaseImpl;
@@ -136,5 +137,10 @@ public class WorkerLocalServiceImpl extends WorkerLocalServiceBaseImpl {
 	
 	public List<Worker> findByG_U(long groupId, long userId) throws SystemException{
 		return WorkerUtil.findByG_U(groupId, userId);
+	}
+	
+	public List<Project> getProjects(long workerId) throws SystemException{
+		//return workerPersistence.getProjects(workerId);
+		return WorkerFinderUtil.getProjects(workerId);
 	}
 }

@@ -52,7 +52,9 @@ import com.liferay.portal.kernel.util.CalendarUtil;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 import com.mpwc.model.Project;
+import com.mpwc.model.Worker;
 import com.mpwc.model.impl.ProjectImpl;
+import com.mpwc.model.impl.WorkerImpl;
 
 public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFinder {
 
@@ -62,6 +64,7 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 	public static String FIND_PROJECTS_BY_FILTERS = ProjectFinderImpl.class.getName()+ ".getProjectsByFilters";
 	public static String ADD_PROJECT_WORKER = ProjectFinderImpl.class.getName()+ ".addProjectWorker";
 	public static String DEL_PROJECT_WORKER = ProjectFinderImpl.class.getName()+ ".delProjectWorker";
+	public static String FIND_PROJECT_WORKERS = ProjectFinderImpl.class.getName()+ ".getProjectWorkers";
 	
 	public List<Project> getProjectsByName(String name) throws SystemException {
 		 Session session = null;
@@ -189,6 +192,23 @@ public class ProjectFinderImpl extends BasePersistenceImpl implements ProjectFin
 			 int res = query.executeUpdate();
 			 System.out.println("ProjectFinderImpl delProjectWorker sql"+ sql.toString() +" *** result ->"+res);
 			 return res;
+		 } catch (Exception e) {
+				throw new SystemException(e);
+		 } finally {
+			 closeSession(session);
+		 }
+	}
+	
+	public List<Worker> getProjectWorkers(long projectId) throws SystemException {
+		 Session session = null;
+		 try {
+			 session = openSession();
+			 String sql = CustomSQLUtil.get(FIND_PROJECT_WORKERS);
+			 SQLQuery query = session.createSQLQuery(sql);
+			 query.addEntity("Worker", WorkerImpl.class);
+			 QueryPos qPos = QueryPos.getInstance(query);
+			 qPos.add(projectId);
+			 return (List)query.list();
 		 } catch (Exception e) {
 				throw new SystemException(e);
 		 } finally {

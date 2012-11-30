@@ -149,4 +149,8 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	public boolean containsWorker(long projectId, long workerId) throws SystemException {
 		return projectPersistence.containsWorker(projectId, workerId);
 	}
+	
+	public List<Worker> getProjectWorkers(long projectId) throws SystemException {
+		return ProjectFinderUtil.getProjectWorkers(projectId);
+	}
 }

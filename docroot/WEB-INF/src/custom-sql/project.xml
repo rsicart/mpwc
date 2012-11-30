@@ -63,4 +63,19 @@
  			WHERE workerid = ? AND projectid = ?
 		]]>
 	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ProjectFinderImpl.getProjectWorkers">
+		<![CDATA[
+			SELECT
+				w.*
+			FROM
+				tbl_mpwc_workers w
+			INNER JOIN
+				tools_tbl_mpwc_worker_project wp
+			ON
+				wp.workerid = w.workerid
+			WHERE
+				wp.projectid = ?
+		]]>
+	</sql>
 </custom-sql>
