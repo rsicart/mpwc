@@ -102,24 +102,28 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		return projectPersistence.getWorkers(projectId);
 	}
 	
-	public void addWorker(long projectId, long workerId) throws SystemException {
+	public long addWorker(long projectId, long workerId) throws SystemException {
 		System.out.println("ProjectLocalServiceImpl addWorker "+workerId+" to project "+projectId);
 		projectPersistence.addWorker(projectId, workerId);
+		return workerId;
 	}
 	
-	public void addWorker(long projectId, Worker worker) throws SystemException {
+	public long addWorker(long projectId, Worker worker) throws SystemException {
 		projectPersistence.addWorker(projectId, worker);
+		return worker.getWorkerId();
 	}
 	
 	public void setWorkers(long projectId, List<Worker> workerList) throws SystemException {
 		projectPersistence.setWorkers(projectId, workerList);
 	}
 	
-	public void removeWorker(long projectId, long workerId) throws SystemException {
+	public long removeWorker(long projectId, long workerId) throws SystemException {
 		projectPersistence.removeWorker(projectId, workerId);
+		return workerId;
 	}
-	public void removeWorker(long projectId, Worker worker) throws SystemException {
+	public long removeWorker(long projectId, Worker worker) throws SystemException {
 		projectPersistence.removeWorker(projectId, worker);
+		return worker.getWorkerId();
 	}
 	
 	public int addProjectWorker(long projectId, long workerId) throws SystemException {
@@ -129,8 +133,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		//Temporal alternative solution, instead line above, use finder method below
 		System.out.println("ProjectLocalServiceImpl addProjectWorker "+workerId+" to project "+projectId);
 		int res = ProjectFinderUtil.addProjectWorker(projectId, workerId);
-		//refresh cache
-		projectPersistence.clearCache();
+
 		return res;
 	}	
 	
@@ -141,8 +144,7 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		//Temporal alternative solution, instead line above, use finder method below		
 		System.out.println("ProjectLocalServiceImpl delProjectWorker "+workerId+" from project "+projectId);
 		int res = ProjectFinderUtil.delProjectWorker(projectId, workerId);
-		//refresh cache
-		projectPersistence.clearCache();
+
 		return res;
 	}
 	

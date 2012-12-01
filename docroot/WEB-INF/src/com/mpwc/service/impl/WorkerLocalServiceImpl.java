@@ -123,17 +123,20 @@ public class WorkerLocalServiceImpl extends WorkerLocalServiceBaseImpl {
 		
 		return workerPersistence.update(w, false);
 	}
-	/*
-	public void deleteWorker(long workerId) throws NoSuchWorkerException, PortalException, SystemException {
+	
+	public Worker deleteWorker(long workerId) throws NoSuchWorkerException, PortalException, SystemException {
 		Worker w = workerPersistence.findByPrimaryKey(workerId);	
-		deleteWorker(w);
+		return deleteWorker(w);
 	}
 	
-	public void deleteWorker(Worker worker) throws PortalException, SystemException {		
-		resourceLocalService.deleteResource(worker.getCompanyId(), Worker.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, worker.getPrimaryKey());		
-		workerPersistence.remove(worker);
-	}
-	**/
+	public Worker deleteWorker(Worker worker) throws SystemException {		
+		try {
+			resourceLocalService.deleteResource(worker.getCompanyId(), Worker.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL, worker.getPrimaryKey());
+		} catch (PortalException e) {
+			e.printStackTrace();
+		}		
+		return workerPersistence.remove(worker);
+	}	
 	
 	public List<Worker> findByG_U(long groupId, long userId) throws SystemException{
 		return WorkerUtil.findByG_U(groupId, userId);
