@@ -503,6 +503,7 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 		projectImpl.setEndDate(project.getEndDate());
 		projectImpl.setComments(project.getComments());
 		projectImpl.setProjectStatusId(project.getProjectStatusId());
+		projectImpl.setWorkerId(project.getWorkerId());
 
 		return projectImpl;
 	}

@@ -26,6 +26,7 @@
 		</field>
 		<field name="comments" type="String" />
 		<field name="projectStatusId" type="long" />
+		<field name="workerId" type="long" />
 	</model>
 	<model name="com.mpwc.model.ProjectStatus">
 		<field name="projectStatusId" type="long" />

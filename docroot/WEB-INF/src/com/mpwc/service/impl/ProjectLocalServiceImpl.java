@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.mpwc.model.Project;
 import com.mpwc.model.Worker;
+import com.mpwc.service.ProjectLocalServiceUtil;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
 import com.mpwc.service.persistence.ProjectFinderUtil;
 
@@ -118,10 +119,34 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	}
 	
 	public long removeWorker(long projectId, long workerId) throws SystemException {
+		Project p;
+		try {
+			p = ProjectLocalServiceUtil.getProject(projectId);
+			//remove project manager if is this worker
+			if(p.getWorkerId()==workerId){
+				p.setWorkerId(0);
+				ProjectLocalServiceUtil.updateProject(p);
+			}
+		} catch (PortalException e) {
+			System.out.println("removeWorker exception:"+e.getMessage());
+		}
+		
 		projectPersistence.removeWorker(projectId, workerId);
 		return workerId;
 	}
 	public long removeWorker(long projectId, Worker worker) throws SystemException {
+		Project p;
+		try {
+			p = ProjectLocalServiceUtil.getProject(projectId);
+			//remove project manager if is this worker
+			if(p.getWorkerId()==worker.getWorkerId()){
+				p.setWorkerId((Long)null);
+				ProjectLocalServiceUtil.updateProject(p);
+			}
+		} catch (PortalException e) {
+			System.out.println("removeWorker exception:"+e.getMessage());
+		}
+		
 		projectPersistence.removeWorker(projectId, worker);
 		return worker.getWorkerId();
 	}

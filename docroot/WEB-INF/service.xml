@@ -141,6 +141,7 @@
 		
 		<!-- FK fields -->
 		<column name="projectStatusId" type="long" />
+		<column name="workerId" type="long" /> <!-- project manager -->
 		
 		<!-- Relation m:n  -->
         <column name="workerList" type="Collection" entity="Worker"  mapping-table="tbl_mpwc_worker_project" /> 

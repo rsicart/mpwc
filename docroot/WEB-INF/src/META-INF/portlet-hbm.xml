@@ -28,6 +28,7 @@
 		<property name="endDate" type="org.hibernate.type.TimestampType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="workerId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.mpwc.model.impl.ProjectStatusImpl" table="tbl_mpwc_projectstatus">
 		<cache usage="read-write" />
