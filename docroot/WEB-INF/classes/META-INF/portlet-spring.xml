@@ -11,6 +11,9 @@
 	<bean id="com.mpwc.service.StatusLocalService" class="com.mpwc.service.impl.StatusLocalServiceImpl" />
 	<bean id="com.mpwc.service.StatusService" class="com.mpwc.service.impl.StatusServiceImpl" />
 	<bean id="com.mpwc.service.persistence.StatusPersistence" class="com.mpwc.service.persistence.StatusPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.TimeBoxLocalService" class="com.mpwc.service.impl.TimeBoxLocalServiceImpl" />
+	<bean id="com.mpwc.service.TimeBoxService" class="com.mpwc.service.impl.TimeBoxServiceImpl" />
+	<bean id="com.mpwc.service.persistence.TimeBoxPersistence" class="com.mpwc.service.persistence.TimeBoxPersistenceImpl" parent="basePersistence" />
 	<bean id="com.mpwc.service.WorkerLocalService" class="com.mpwc.service.impl.WorkerLocalServiceImpl" />
 	<bean id="com.mpwc.service.WorkerService" class="com.mpwc.service.impl.WorkerServiceImpl" />
 	<bean id="com.mpwc.service.persistence.WorkerPersistence" class="com.mpwc.service.persistence.WorkerPersistenceImpl" parent="basePersistence" />

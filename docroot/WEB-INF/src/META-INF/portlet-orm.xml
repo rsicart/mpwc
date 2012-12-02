@@ -63,6 +63,26 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="com.mpwc.model.impl.TimeBoxModelImpl">
+		<attributes>
+			<id name="timeboxId" />
+			<basic name="projectId" />
+			<basic name="workerId" />
+			<basic name="groupId" />
+			<basic name="companyId" />
+			<basic name="createDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="modifiedDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="minutes" />
+			<basic name="comments" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="com.mpwc.model.impl.WorkerModelImpl">
 		<attributes>
 			<id name="workerId" />
@@ -99,6 +119,10 @@
 	</entity>
 	<entity class="com.mpwc.model.impl.StatusImpl" name="Status">
 		<table name="tbl_mpwc_workerstatus" />
+		<attributes />
+	</entity>
+	<entity class="com.mpwc.model.impl.TimeBoxImpl" name="TimeBox">
+		<table name="tbl_mpwc_timebox" />
 		<attributes />
 	</entity>
 	<entity class="com.mpwc.model.impl.WorkerImpl" name="Worker">

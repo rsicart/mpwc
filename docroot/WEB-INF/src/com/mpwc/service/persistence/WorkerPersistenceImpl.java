@@ -5876,6 +5876,237 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	}
 
 	/**
+	 * Returns all the time boxs associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @return the time boxs associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.TimeBox> getTimeBoxs(long pk)
+		throws SystemException {
+		return getTimeBoxs(pk, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+	}
+
+	/**
+	 * Returns a range of all the time boxs associated with the worker.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param pk the primary key of the worker
+	 * @param start the lower bound of the range of workers
+	 * @param end the upper bound of the range of workers (not inclusive)
+	 * @return the range of time boxs associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.TimeBox> getTimeBoxs(long pk, int start, int end)
+		throws SystemException {
+		return getTimeBoxs(pk, start, end, null);
+	}
+
+	public static final FinderPath FINDER_PATH_GET_TIMEBOXS = new FinderPath(com.mpwc.model.impl.TimeBoxModelImpl.ENTITY_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxModelImpl.FINDER_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxImpl.class,
+			com.mpwc.service.persistence.TimeBoxPersistenceImpl.FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"getTimeBoxs",
+			new String[] {
+				Long.class.getName(), "java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+
+	static {
+		FINDER_PATH_GET_TIMEBOXS.setCacheKeyGeneratorCacheName(null);
+	}
+
+	/**
+	 * Returns an ordered range of all the time boxs associated with the worker.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param pk the primary key of the worker
+	 * @param start the lower bound of the range of workers
+	 * @param end the upper bound of the range of workers (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of time boxs associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<com.mpwc.model.TimeBox> getTimeBoxs(long pk, int start,
+		int end, OrderByComparator orderByComparator) throws SystemException {
+		Object[] finderArgs = new Object[] { pk, start, end, orderByComparator };
+
+		List<com.mpwc.model.TimeBox> list = (List<com.mpwc.model.TimeBox>)FinderCacheUtil.getResult(FINDER_PATH_GET_TIMEBOXS,
+				finderArgs, this);
+
+		if (list == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				String sql = null;
+
+				if (orderByComparator != null) {
+					sql = _SQL_GETTIMEBOXS.concat(ORDER_BY_CLAUSE)
+										  .concat(orderByComparator.getOrderBy());
+				}
+				else {
+					sql = _SQL_GETTIMEBOXS;
+				}
+
+				SQLQuery q = session.createSQLQuery(sql);
+
+				q.addEntity("tbl_mpwc_timebox",
+					com.mpwc.model.impl.TimeBoxImpl.class);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(pk);
+
+				list = (List<com.mpwc.model.TimeBox>)QueryUtil.list(q,
+						getDialect(), start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(FINDER_PATH_GET_TIMEBOXS,
+						finderArgs);
+				}
+				else {
+					timeBoxPersistence.cacheResult(list);
+
+					FinderCacheUtil.putResult(FINDER_PATH_GET_TIMEBOXS,
+						finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	public static final FinderPath FINDER_PATH_GET_TIMEBOXS_SIZE = new FinderPath(com.mpwc.model.impl.TimeBoxModelImpl.ENTITY_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxModelImpl.FINDER_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxImpl.class,
+			com.mpwc.service.persistence.TimeBoxPersistenceImpl.FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"getTimeBoxsSize", new String[] { Long.class.getName() });
+
+	static {
+		FINDER_PATH_GET_TIMEBOXS_SIZE.setCacheKeyGeneratorCacheName(null);
+	}
+
+	/**
+	 * Returns the number of time boxs associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @return the number of time boxs associated with the worker
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int getTimeBoxsSize(long pk) throws SystemException {
+		Object[] finderArgs = new Object[] { pk };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_GET_TIMEBOXS_SIZE,
+				finderArgs, this);
+
+		if (count == null) {
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				SQLQuery q = session.createSQLQuery(_SQL_GETTIMEBOXSSIZE);
+
+				q.addScalar(COUNT_COLUMN_NAME,
+					com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(pk);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_GET_TIMEBOXS_SIZE,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	public static final FinderPath FINDER_PATH_CONTAINS_TIMEBOX = new FinderPath(com.mpwc.model.impl.TimeBoxModelImpl.ENTITY_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxModelImpl.FINDER_CACHE_ENABLED,
+			com.mpwc.model.impl.TimeBoxImpl.class,
+			com.mpwc.service.persistence.TimeBoxPersistenceImpl.FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"containsTimeBox",
+			new String[] { Long.class.getName(), Long.class.getName() });
+
+	/**
+	 * Returns <code>true</code> if the time box is associated with the worker.
+	 *
+	 * @param pk the primary key of the worker
+	 * @param timeBoxPK the primary key of the time box
+	 * @return <code>true</code> if the time box is associated with the worker; <code>false</code> otherwise
+	 * @throws SystemException if a system exception occurred
+	 */
+	public boolean containsTimeBox(long pk, long timeBoxPK)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { pk, timeBoxPK };
+
+		Boolean value = (Boolean)FinderCacheUtil.getResult(FINDER_PATH_CONTAINS_TIMEBOX,
+				finderArgs, this);
+
+		if (value == null) {
+			try {
+				value = Boolean.valueOf(containsTimeBox.contains(pk, timeBoxPK));
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (value == null) {
+					value = Boolean.FALSE;
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_CONTAINS_TIMEBOX,
+					finderArgs, value);
+			}
+		}
+
+		return value.booleanValue();
+	}
+
+	/**
+	 * Returns <code>true</code> if the worker has any time boxs associated with it.
+	 *
+	 * @param pk the primary key of the worker to check for associations with time boxs
+	 * @return <code>true</code> if the worker has any time boxs associated with it; <code>false</code> otherwise
+	 * @throws SystemException if a system exception occurred
+	 */
+	public boolean containsTimeBoxs(long pk) throws SystemException {
+		if (getTimeBoxsSize(pk) > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
 	 * Initializes the worker persistence.
 	 */
 	public void afterPropertiesSet() {
@@ -5904,6 +6135,8 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 		addProject = new AddProject();
 		clearProjects = new ClearProjects();
 		removeProject = new RemoveProject();
+
+		containsTimeBox = new ContainsTimeBox();
 	}
 
 	public void destroy() {
@@ -5918,6 +6151,8 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	protected ProjectStatusPersistence projectStatusPersistence;
 	@BeanReference(type = StatusPersistence.class)
 	protected StatusPersistence statusPersistence;
+	@BeanReference(type = TimeBoxPersistence.class)
+	protected TimeBoxPersistence timeBoxPersistence;
 	@BeanReference(type = WorkerPersistence.class)
 	protected WorkerPersistence workerPersistence;
 	@BeanReference(type = ResourcePersistence.class)
@@ -5928,6 +6163,7 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	protected AddProject addProject;
 	protected ClearProjects clearProjects;
 	protected RemoveProject removeProject;
+	protected ContainsTimeBox containsTimeBox;
 
 	protected class ContainsProject {
 		protected ContainsProject() {
@@ -6088,6 +6324,33 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 		private SqlUpdate _sqlUpdate;
 	}
 
+	protected class ContainsTimeBox {
+		protected ContainsTimeBox() {
+			_mappingSqlQuery = MappingSqlQueryFactoryUtil.getMappingSqlQuery(getDataSource(),
+					_SQL_CONTAINSTIMEBOX,
+					new int[] { java.sql.Types.BIGINT, java.sql.Types.BIGINT },
+					RowMapper.COUNT);
+		}
+
+		protected boolean contains(long workerId, long timeboxId) {
+			List<Integer> results = _mappingSqlQuery.execute(new Object[] {
+						new Long(workerId), new Long(timeboxId)
+					});
+
+			if (results.size() > 0) {
+				Integer count = results.get(0);
+
+				if (count.intValue() > 0) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		private MappingSqlQuery<Integer> _mappingSqlQuery;
+	}
+
 	private static final String _SQL_SELECT_WORKER = "SELECT worker FROM Worker worker";
 	private static final String _SQL_SELECT_WORKER_WHERE = "SELECT worker FROM Worker worker WHERE ";
 	private static final String _SQL_COUNT_WORKER = "SELECT COUNT(worker) FROM Worker worker";
@@ -6095,6 +6358,9 @@ public class WorkerPersistenceImpl extends BasePersistenceImpl<Worker>
 	private static final String _SQL_GETPROJECTS = "SELECT {tbl_mpwc_projects.*} FROM tbl_mpwc_projects INNER JOIN tools_tbl_mpwc_worker_project ON (tools_tbl_mpwc_worker_project.projectId = tbl_mpwc_projects.projectId) WHERE (tools_tbl_mpwc_worker_project.workerId = ?)";
 	private static final String _SQL_GETPROJECTSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tools_tbl_mpwc_worker_project WHERE workerId = ?";
 	private static final String _SQL_CONTAINSPROJECT = "SELECT COUNT(*) AS COUNT_VALUE FROM tools_tbl_mpwc_worker_project WHERE workerId = ? AND projectId = ?";
+	private static final String _SQL_GETTIMEBOXS = "SELECT {tbl_mpwc_timebox.*} FROM tbl_mpwc_timebox INNER JOIN tbl_mpwc_workers ON (tbl_mpwc_workers.workerId = tbl_mpwc_timebox.workerId) WHERE (tbl_mpwc_workers.workerId = ?)";
+	private static final String _SQL_GETTIMEBOXSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_timebox WHERE workerId = ?";
+	private static final String _SQL_CONTAINSTIMEBOX = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_timebox WHERE workerId = ? AND timeboxId = ?";
 	private static final String _FINDER_COLUMN_NIF_NIF_1 = "worker.nif IS NULL";
 	private static final String _FINDER_COLUMN_NIF_NIF_2 = "worker.nif = ?";
 	private static final String _FINDER_COLUMN_NIF_NIF_3 = "(worker.nif IS NULL OR worker.nif = ?)";

@@ -29,6 +29,7 @@ import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.mpwc.NoSuchWorkerException;
 import com.mpwc.model.Project;
+import com.mpwc.model.TimeBox;
 import com.mpwc.model.Worker;
 import com.mpwc.service.WorkerLocalServiceUtil;
 import com.mpwc.service.base.WorkerLocalServiceBaseImpl;
@@ -145,5 +146,9 @@ public class WorkerLocalServiceImpl extends WorkerLocalServiceBaseImpl {
 	public List<Project> getProjects(long workerId) throws SystemException{
 		//return workerPersistence.getProjects(workerId);
 		return WorkerFinderUtil.getProjects(workerId);
+	}
+	
+	public List<TimeBox> getTimeBoxs(long projectId) throws SystemException {
+		return projectPersistence.getTimeBoxs(projectId);
 	}
 }

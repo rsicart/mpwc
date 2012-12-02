@@ -20,6 +20,7 @@ import java.util.List;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.mpwc.model.Project;
+import com.mpwc.model.TimeBox;
 import com.mpwc.model.Worker;
 import com.mpwc.service.ProjectLocalServiceUtil;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
@@ -179,5 +180,21 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 	
 	public List<Worker> getProjectWorkers(long projectId) throws SystemException {
 		return ProjectFinderUtil.getProjectWorkers(projectId);
+	}
+	
+	public List<TimeBox> getTimeBoxs(long projectId) throws SystemException {
+		return projectPersistence.getTimeBoxs(projectId);
+	}
+	
+	/*
+	 * Returns total minutes added to a project (by timeboxes)
+	 */
+	public long totalizeTimeBoxs(long projectId) throws SystemException {
+		long total = 0;
+		List<TimeBox> ltb = projectPersistence.getTimeBoxs(projectId);
+		for(TimeBox tb : ltb){
+			total += tb.getMinutes();
+		}
+		return total;
 	}
 }

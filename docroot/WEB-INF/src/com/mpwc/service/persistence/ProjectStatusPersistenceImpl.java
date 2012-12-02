@@ -853,6 +853,8 @@ public class ProjectStatusPersistenceImpl extends BasePersistenceImpl<ProjectSta
 	protected ProjectStatusPersistence projectStatusPersistence;
 	@BeanReference(type = StatusPersistence.class)
 	protected StatusPersistence statusPersistence;
+	@BeanReference(type = TimeBoxPersistence.class)
+	protected TimeBoxPersistence timeBoxPersistence;
 	@BeanReference(type = WorkerPersistence.class)
 	protected WorkerPersistence workerPersistence;
 	@BeanReference(type = ResourcePersistence.class)

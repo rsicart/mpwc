@@ -40,6 +40,17 @@
 		<field name="desc_es_ES" type="String" />
 		<field name="desc_ca_ES" type="String" />
 	</model>
+	<model name="com.mpwc.model.TimeBox">
+		<field name="timeboxId" type="long" />
+		<field name="projectId" type="long" />
+		<field name="workerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="minutes" type="long" />
+		<field name="comments" type="String" />
+	</model>
 	<model name="com.mpwc.model.Worker">
 		<field name="workerId" type="long" />
 		<field name="groupId" type="long" />

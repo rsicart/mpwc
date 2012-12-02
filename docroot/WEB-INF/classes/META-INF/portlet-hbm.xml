@@ -5,6 +5,7 @@
 	<import class="com.mpwc.model.Project" />
 	<import class="com.mpwc.model.ProjectStatus" />
 	<import class="com.mpwc.model.Status" />
+	<import class="com.mpwc.model.TimeBox" />
 	<import class="com.mpwc.model.Worker" />
 	<class name="com.mpwc.model.impl.ProjectImpl" table="tbl_mpwc_projects">
 		<cache usage="read-write" />
@@ -47,6 +48,22 @@
 		<property name="desc_en_US" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="desc_es_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="desc_ca_ES" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+	</class>
+	<class name="com.mpwc.model.impl.TimeBoxImpl" table="tbl_mpwc_timebox">
+		<cache usage="read-write" />
+		<id name="timeboxId" type="long">
+			<generator class="sequence">
+				<param name="sequence">seq_timebox_timeboxid</param>
+			</generator>
+		</id>
+		<property name="projectId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="workerId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="groupId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="createDate" type="org.hibernate.type.TimestampType" />
+		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="minutes" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="com.mpwc.model.impl.WorkerImpl" table="tbl_mpwc_workers">
 		<cache usage="read-write" />
