@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.model.Group;
 import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.Role;
@@ -141,6 +142,12 @@ public class WorkerLocalServiceImpl extends WorkerLocalServiceBaseImpl {
 	
 	public List<Worker> findByG_U(long groupId, long userId) throws SystemException{
 		return WorkerUtil.findByG_U(groupId, userId);
+	}
+	
+	public Worker findByG_U_First(long groupId, long userId,
+			OrderByComparator orderByComparator)
+			throws NoSuchWorkerException, SystemException {
+		return workerPersistence.findByG_U_First(groupId, userId, orderByComparator);
 	}
 	
 	public List<Project> getProjects(long workerId) throws SystemException{

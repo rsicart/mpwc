@@ -62,6 +62,7 @@
 		<property name="companyId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="createDate" type="org.hibernate.type.TimestampType" />
 		<property name="modifiedDate" type="org.hibernate.type.TimestampType" />
+		<property name="dedicationDate" type="org.hibernate.type.TimestampType" />
 		<property name="minutes" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>

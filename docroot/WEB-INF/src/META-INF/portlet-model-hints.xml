@@ -48,6 +48,11 @@
 		<field name="companyId" type="long" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
+		<field name="dedicationDate" type="Date">
+			<hint name="year-range-delta">2</hint>
+			<hint name="year-range-past">true</hint>
+			<hint name="show-time">false</hint>
+		</field>
 		<field name="minutes" type="long" />
 		<field name="comments" type="String" />
 	</model>

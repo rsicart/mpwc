@@ -76,6 +76,9 @@
 			<basic name="modifiedDate">
 				<temporal>TIMESTAMP</temporal>
 			</basic>
+			<basic name="dedicationDate">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
 			<basic name="minutes" />
 			<basic name="comments" />
 			<transient name="modelAttributes" />

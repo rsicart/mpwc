@@ -306,6 +306,7 @@ public class TimeBoxPersistenceImpl extends BasePersistenceImpl<TimeBox>
 		timeBoxImpl.setCompanyId(timeBox.getCompanyId());
 		timeBoxImpl.setCreateDate(timeBox.getCreateDate());
 		timeBoxImpl.setModifiedDate(timeBox.getModifiedDate());
+		timeBoxImpl.setDedicationDate(timeBox.getDedicationDate());
 		timeBoxImpl.setMinutes(timeBox.getMinutes());
 		timeBoxImpl.setComments(timeBox.getComments());
 

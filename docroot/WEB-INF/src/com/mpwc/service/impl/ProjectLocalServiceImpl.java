@@ -23,6 +23,7 @@ import com.mpwc.model.Project;
 import com.mpwc.model.TimeBox;
 import com.mpwc.model.Worker;
 import com.mpwc.service.ProjectLocalServiceUtil;
+import com.mpwc.service.TimeBoxLocalServiceUtil;
 import com.mpwc.service.base.ProjectLocalServiceBaseImpl;
 import com.mpwc.service.persistence.ProjectFinderUtil;
 
@@ -196,5 +197,15 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 			total += tb.getMinutes();
 		}
 		return total;
+	}
+	
+	public long addTimeBox(TimeBox tb) throws SystemException {
+		try {
+			TimeBoxLocalServiceUtil.add(tb);
+		} catch (PortalException e) {
+			//doesnt exist in db
+			return 0;
+		}
+		return tb.getTimeboxId();
 	}
 }

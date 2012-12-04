@@ -14,6 +14,11 @@
 
 package com.mpwc.service.impl;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.ResourceConstants;
+import com.mpwc.model.Project;
+import com.mpwc.model.TimeBox;
 import com.mpwc.service.base.TimeBoxLocalServiceBaseImpl;
 
 /**
@@ -36,4 +41,41 @@ public class TimeBoxLocalServiceImpl extends TimeBoxLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link com.mpwc.service.TimeBoxLocalServiceUtil} to access the time box local service.
 	 */
+	
+	public TimeBox add(TimeBox timeBox) throws SystemException, PortalException {
+		
+		//create new project
+		TimeBox tb = timeBoxPersistence.create(counterLocalService.increment(TimeBox.class.getName()));
+		
+		//add resources
+		resourceLocalService.addResources(tb.getCompanyId(), tb.getGroupId(), TimeBox.class.getName(), false);
+		
+		//set project properties
+		tb.setProjectId(timeBox.getProjectId());
+		tb.setWorkerId(timeBox.getWorkerId());
+		tb.setMinutes(timeBox.getMinutes());
+		tb.setComments(timeBox.getComments());
+		tb.setDedicationDate(timeBox.getDedicationDate());
+		tb.setCreateDate(timeBox.getCreateDate());
+		tb.setModifiedDate(timeBox.getModifiedDate());
+		
+		//other properties
+		tb.setCompanyId(timeBox.getCompanyId());
+		tb.setGroupId(timeBox.getGroupId());
+		
+		return timeBoxPersistence.update(tb, false);
+	}
+	
+	
+	public long delete(long timeBoxId) throws SystemException, PortalException {
+		TimeBox tb = timeBoxPersistence.findByPrimaryKey(timeBoxId);
+	    return delete(tb);
+	}
+	
+	public long delete(TimeBox timeBox) throws SystemException, PortalException {
+        resourceLocalService.deleteResource(timeBox.getCompanyId(), TimeBox.class.getName(),ResourceConstants.SCOPE_INDIVIDUAL, timeBox.getPrimaryKey());
+        timeBoxPersistence.remove(timeBox);
+	    return timeBox.getTimeboxId();
+	}
+	
 }
