@@ -14,6 +14,9 @@
 
 package com.mpwc.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.ResourceConstants;
@@ -76,6 +79,31 @@ public class TimeBoxLocalServiceImpl extends TimeBoxLocalServiceBaseImpl {
         resourceLocalService.deleteResource(timeBox.getCompanyId(), TimeBox.class.getName(),ResourceConstants.SCOPE_INDIVIDUAL, timeBox.getPrimaryKey());
         timeBoxPersistence.remove(timeBox);
 	    return timeBox.getTimeboxId();
+	}
+	
+	public List<TimeBox> findByWorker(long workerId) throws SystemException, PortalException {
+		return timeBoxPersistence.findByW(workerId);
+	}
+	
+	public List<TimeBox> findByProjectWorker(long projectId, long workerId) throws SystemException, PortalException {
+		return timeBoxPersistence.findByP_W(projectId, workerId);
+	}
+	
+	public List<TimeBox> findByProject(long projectId) throws SystemException, PortalException {
+		return timeBoxPersistence.findByP(projectId);
+	}
+	
+	public List<TimeBox> findByProjectWorkerDDate(long projectId, long workerId, Date dedicationDate) throws SystemException, PortalException {
+		return timeBoxPersistence.findByP_W_DD(projectId, workerId, dedicationDate);
+	}
+	
+	public long totalizeTimeboxByProjectWorker(long projectId, long workerId) throws SystemException, PortalException{
+		long total = 0;
+		List<TimeBox> ltb = findByProjectWorker(projectId, workerId);
+		for(TimeBox tb : ltb){
+			total += tb.getMinutes();
+		}
+		return total;
 	}
 	
 }

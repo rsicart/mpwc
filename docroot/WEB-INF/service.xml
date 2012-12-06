@@ -208,6 +208,36 @@
 		<column name="dedicationDate" type="Date" />
 		<column name="minutes" type="long" />
 		<column name="comments" type="String" />
+		
+		<!-- Finders -->
+		<finder name="P" return-type="Collection">
+            <finder-column name="projectId"></finder-column>
+        </finder>
+		
+		<finder name="W" return-type="Collection">
+            <finder-column name="workerId"></finder-column>
+        </finder>
+		
+		<finder name="P_W" return-type="Collection">
+            <finder-column name="projectId"></finder-column>
+            <finder-column name="workerId"></finder-column>
+        </finder>
+        
+        <finder name="P_W_DD" return-type="Collection">
+            <finder-column name="projectId"></finder-column>
+            <finder-column name="workerId"></finder-column>
+            <finder-column name="dedicationDate"></finder-column>
+        </finder>
+		
+		<finder name="G_P" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="projectId"></finder-column>
+        </finder>
+		
+		<finder name="G_W" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="workerId"></finder-column>
+        </finder>
         
     </entity>
     
