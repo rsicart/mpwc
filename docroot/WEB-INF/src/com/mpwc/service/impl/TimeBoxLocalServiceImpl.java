@@ -76,9 +76,11 @@ public class TimeBoxLocalServiceImpl extends TimeBoxLocalServiceBaseImpl {
 	}
 	
 	public long delete(TimeBox timeBox) throws SystemException, PortalException {
-        resourceLocalService.deleteResource(timeBox.getCompanyId(), TimeBox.class.getName(),ResourceConstants.SCOPE_INDIVIDUAL, timeBox.getPrimaryKey());
+        long result = timeBox.getTimeboxId();
+		resourceLocalService.deleteResource(timeBox.getCompanyId(), TimeBox.class.getName(),ResourceConstants.SCOPE_INDIVIDUAL, timeBox.getPrimaryKey());
         timeBoxPersistence.remove(timeBox);
-	    return timeBox.getTimeboxId();
+        System.out.println("TimeBoxLocalService delete:"+result);
+	    return result;
 	}
 	
 	public List<TimeBox> findByWorker(long workerId) throws SystemException, PortalException {
