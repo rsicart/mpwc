@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<bean id="com.mpwc.service.ContactoLocalService" class="com.mpwc.service.impl.ContactoLocalServiceImpl" />
+	<bean id="com.mpwc.service.ContactoService" class="com.mpwc.service.impl.ContactoServiceImpl" />
+	<bean id="com.mpwc.service.persistence.ContactoPersistence" class="com.mpwc.service.persistence.ContactoPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.ContactoStatusLocalService" class="com.mpwc.service.impl.ContactoStatusLocalServiceImpl" />
+	<bean id="com.mpwc.service.ContactoStatusService" class="com.mpwc.service.impl.ContactoStatusServiceImpl" />
+	<bean id="com.mpwc.service.persistence.ContactoStatusPersistence" class="com.mpwc.service.persistence.ContactoStatusPersistenceImpl" parent="basePersistence" />
 	<bean id="com.mpwc.service.ProjectLocalService" class="com.mpwc.service.impl.ProjectLocalServiceImpl" />
 	<bean id="com.mpwc.service.ProjectService" class="com.mpwc.service.impl.ProjectServiceImpl" />
 	<bean id="com.mpwc.service.persistence.ProjectPersistence" class="com.mpwc.service.persistence.ProjectPersistenceImpl" parent="basePersistence" />

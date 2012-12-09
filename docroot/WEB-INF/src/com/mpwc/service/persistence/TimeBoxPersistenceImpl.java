@@ -3668,6 +3668,10 @@ public class TimeBoxPersistenceImpl extends BasePersistenceImpl<TimeBox>
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 	}
 
+	@BeanReference(type = ContactoPersistence.class)
+	protected ContactoPersistence contactoPersistence;
+	@BeanReference(type = ContactoStatusPersistence.class)
+	protected ContactoStatusPersistence contactoStatusPersistence;
 	@BeanReference(type = ProjectPersistence.class)
 	protected ProjectPersistence projectPersistence;
 	@BeanReference(type = ProjectStatusPersistence.class)

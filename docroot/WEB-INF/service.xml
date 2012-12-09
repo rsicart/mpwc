@@ -61,9 +61,11 @@
 		<finder name="Email" return-type="Collection">
 			<finder-column name="email" />
 		</finder>
+		
 		<finder name="Name" return-type="Collection">
 			<finder-column name="name" />
 		</finder>
+		
 		<finder name="Surname" return-type="Collection">
 			<finder-column name="surname" />
 		</finder>
@@ -87,11 +89,11 @@
 			<finder-column name="groupId" />
 			<finder-column name="surname" />
 		</finder>
+		
         <finder name="G_U" return-type="Collection">
             <finder-column name="groupId"></finder-column>
             <finder-column name="userId"></finder-column>
-        </finder>
-		
+        </finder>		
 		
 	</entity>
 	
@@ -144,6 +146,7 @@
 		<!-- FK fields -->
 		<column name="projectStatusId" type="long" />
 		<column name="workerId" type="long" /> <!-- project manager -->
+		<column name="contactId" type="long" /> <!-- contact (customer) -->
 		
 		<!-- Relation m:n  -->
         <column name="workerList" type="Collection" entity="Worker"  mapping-table="tbl_mpwc_worker_project" />
@@ -241,6 +244,95 @@
         
     </entity>
     
-    <!-- End MPWC Project -->
+    <!-- End MPWC Project -->    
+    
+	<!-- Begin MPWC Contact -->
+	
+	<entity name="Contacto" table="tbl_mpwc_contacts" local-service="true" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="contactId" type="long" primary="true" id-type="sequence" id-param="seq_contact_contactid"/>
+		
+		<!-- Group instance --> 
+
+		<column name="groupId" type="long" /> 
+		
+		<!-- Audit fields --> 
+		
+		<column name="companyId" type="long" /> 
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		
+		<!-- Other fields -->
+		
+		<column name="ctype" type="String" />
+		<column name="nif" type="String" />
+		<column name="firmname" type="String" />
+		<column name="address" type="String" />
+		<column name="zipcode" type="String" />
+		<column name="city" type="String" />
+		<column name="country" type="String" />
+		<column name="email" type="String" />
+		<column name="phone" type="String" />
+		<column name="phone2" type="String" />
+		<column name="comments" type="String" />
+
+		<!-- FK fields -->
+		<column name="contactStatusId" type="long" />
+        
+        <!-- Relation 1:n  -->
+        <column name="projectList" type="Collection" entity="Project"  mapping-key="contactId" /> 
+		
+		<!-- Order -->
+		<order by="asc">
+			<order-column name="contactId" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<finder name="Ctype" return-type="Collection">
+			<finder-column name="ctype" />
+		</finder>
+		
+		<finder name="Nif" return-type="Collection">
+			<finder-column name="nif" />
+		</finder>
+		
+		<finder name="Email" return-type="Collection">
+			<finder-column name="email" />
+		</finder>
+		
+		<finder name="Firmname" return-type="Collection">
+			<finder-column name="firmname" />
+		</finder>
+		
+		<finder name="Zipcode" return-type="Collection">
+			<finder-column name="zipcode" />
+		</finder>
+		
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="city" />
+			<finder-column name="country" />
+		</finder>	
+		
+	</entity>
+	
+    <entity name="ContactoStatus" local-service="true" table="tbl_mpwc_contactstatus">
+        <column name="contactStatusId" type="long" primary="true"></column>
+        <column name="desc_en_US" type="String"></column>
+        <column name="desc_es_ES" type="String"></column>
+        <column name="desc_ca_ES" type="String"></column>
+        <column
+		   name="contactStatus"
+		   type="Collection"
+		   entity="Contacto"
+		   mapping-key="contactStatusId" />
+        
+    </entity>
+    
+    <!-- End MPWC Contact -->
 	
 </service-builder>
