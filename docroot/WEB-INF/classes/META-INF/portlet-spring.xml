@@ -4,6 +4,7 @@
 	<bean id="com.mpwc.service.ContactoLocalService" class="com.mpwc.service.impl.ContactoLocalServiceImpl" />
 	<bean id="com.mpwc.service.ContactoService" class="com.mpwc.service.impl.ContactoServiceImpl" />
 	<bean id="com.mpwc.service.persistence.ContactoPersistence" class="com.mpwc.service.persistence.ContactoPersistenceImpl" parent="basePersistence" />
+	<bean id="com.mpwc.service.persistence.ContactoFinder" class="com.mpwc.service.persistence.ContactoFinderImpl" parent="basePersistence" />
 	<bean id="com.mpwc.service.ContactoStatusLocalService" class="com.mpwc.service.impl.ContactoStatusLocalServiceImpl" />
 	<bean id="com.mpwc.service.ContactoStatusService" class="com.mpwc.service.impl.ContactoStatusServiceImpl" />
 	<bean id="com.mpwc.service.persistence.ContactoStatusPersistence" class="com.mpwc.service.persistence.ContactoStatusPersistenceImpl" parent="basePersistence" />

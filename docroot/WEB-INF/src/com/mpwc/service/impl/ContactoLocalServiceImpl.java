@@ -14,17 +14,16 @@
 
 package com.mpwc.service.impl;
 
+import java.util.List;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.model.Group;
 import com.liferay.portal.model.ResourceConstants;
-import com.liferay.portal.model.Role;
-import com.liferay.portal.service.GroupLocalServiceUtil;
-import com.liferay.portal.service.RoleLocalServiceUtil;
-import com.liferay.portal.service.UserLocalServiceUtil;
 import com.mpwc.NoSuchWorkerException;
 import com.mpwc.model.Contacto;
 import com.mpwc.service.base.ContactoLocalServiceBaseImpl;
+import com.mpwc.service.persistence.ContactoFinderUtil;
+
 
 /**
  * The implementation of the contacto local service.
@@ -85,5 +84,9 @@ public class ContactoLocalServiceImpl extends ContactoLocalServiceBaseImpl {
 			e.printStackTrace();
 		}		
 		return contactoPersistence.remove(contacto);
+	}
+	
+	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode) throws PortalException, SystemException {
+		return ContactoFinderUtil.getContactosByFilters(desc, nif, firmname, email, phone, city, country, address, zipcode);
 	}
 }

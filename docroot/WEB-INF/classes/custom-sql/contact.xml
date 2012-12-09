@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<custom-sql>
+	
+	<sql id="com.mpwc.service.persistence.ContactoFinderImpl.getContactsByStatusDesc">
+		<![CDATA[
+			SELECT
+				c.*
+			FROM
+				tbl_mpwc_contacts c
+			INNER JOIN
+				tbl_mpwc_contactstatus cs
+			ON
+				c.contactostatusid = cs.contactostatusid
+			WHERE
+				(cs.desc_en_US like ? OR cs.desc_es_ES like ? OR cs.desc_ca_ES like ?)
+		]]>
+	</sql>
+	
+	<sql id="com.mpwc.service.persistence.ContactoFinderImpl.getContactosByFilters">
+		<![CDATA[	
+			SELECT
+				c.*
+			FROM
+				tbl_mpwc_contacts c
+			INNER JOIN
+				tbl_mpwc_contactstatus cs
+			ON
+				c.contactostatusid = cs.contactostatusid
+			WHERE
+				(cs.desc_en_US LIKE ? OR cs.desc_es_ES LIKE ? OR cs.desc_ca_ES LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.nif LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.firmname LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.email LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.phone LIKE ? [$AND_OR_NULL_CHECK$] )	[$AND_OR_CONNECTOR$]
+				(c.city LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.country LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.address LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.zipcode LIKE ? [$AND_OR_NULL_CHECK$] )		
+		]]>
+	</sql>
+	
+</custom-sql>
