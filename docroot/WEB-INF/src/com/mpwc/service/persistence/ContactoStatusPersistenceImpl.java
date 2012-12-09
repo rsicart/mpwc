@@ -174,14 +174,14 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 	/**
 	 * Creates a new contacto status with the primary key. Does not add the contacto status to the database.
 	 *
-	 * @param contactStatusId the primary key for the new contacto status
+	 * @param contactoStatusId the primary key for the new contacto status
 	 * @return the new contacto status
 	 */
-	public ContactoStatus create(long contactStatusId) {
+	public ContactoStatus create(long contactoStatusId) {
 		ContactoStatus contactoStatus = new ContactoStatusImpl();
 
 		contactoStatus.setNew(true);
-		contactoStatus.setPrimaryKey(contactStatusId);
+		contactoStatus.setPrimaryKey(contactoStatusId);
 
 		return contactoStatus;
 	}
@@ -189,14 +189,14 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 	/**
 	 * Removes the contacto status with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contactStatusId the primary key of the contacto status
+	 * @param contactoStatusId the primary key of the contacto status
 	 * @return the contacto status that was removed
 	 * @throws com.mpwc.NoSuchContactoStatusException if a contacto status with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public ContactoStatus remove(long contactStatusId)
+	public ContactoStatus remove(long contactoStatusId)
 		throws NoSuchContactoStatusException, SystemException {
-		return remove(Long.valueOf(contactStatusId));
+		return remove(Long.valueOf(contactoStatusId));
 	}
 
 	/**
@@ -311,7 +311,7 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 		contactoStatusImpl.setNew(contactoStatus.isNew());
 		contactoStatusImpl.setPrimaryKey(contactoStatus.getPrimaryKey());
 
-		contactoStatusImpl.setContactStatusId(contactoStatus.getContactStatusId());
+		contactoStatusImpl.setContactoStatusId(contactoStatus.getContactoStatusId());
 		contactoStatusImpl.setDesc_en_US(contactoStatus.getDesc_en_US());
 		contactoStatusImpl.setDesc_es_ES(contactoStatus.getDesc_es_ES());
 		contactoStatusImpl.setDesc_ca_ES(contactoStatus.getDesc_ca_ES());
@@ -336,22 +336,22 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 	/**
 	 * Returns the contacto status with the primary key or throws a {@link com.mpwc.NoSuchContactoStatusException} if it could not be found.
 	 *
-	 * @param contactStatusId the primary key of the contacto status
+	 * @param contactoStatusId the primary key of the contacto status
 	 * @return the contacto status
 	 * @throws com.mpwc.NoSuchContactoStatusException if a contacto status with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public ContactoStatus findByPrimaryKey(long contactStatusId)
+	public ContactoStatus findByPrimaryKey(long contactoStatusId)
 		throws NoSuchContactoStatusException, SystemException {
-		ContactoStatus contactoStatus = fetchByPrimaryKey(contactStatusId);
+		ContactoStatus contactoStatus = fetchByPrimaryKey(contactoStatusId);
 
 		if (contactoStatus == null) {
 			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + contactStatusId);
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + contactoStatusId);
 			}
 
 			throw new NoSuchContactoStatusException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				contactStatusId);
+				contactoStatusId);
 		}
 
 		return contactoStatus;
@@ -373,14 +373,14 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 	/**
 	 * Returns the contacto status with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param contactStatusId the primary key of the contacto status
+	 * @param contactoStatusId the primary key of the contacto status
 	 * @return the contacto status, or <code>null</code> if a contacto status with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public ContactoStatus fetchByPrimaryKey(long contactStatusId)
+	public ContactoStatus fetchByPrimaryKey(long contactoStatusId)
 		throws SystemException {
 		ContactoStatus contactoStatus = (ContactoStatus)EntityCacheUtil.getResult(ContactoStatusModelImpl.ENTITY_CACHE_ENABLED,
-				ContactoStatusImpl.class, contactStatusId);
+				ContactoStatusImpl.class, contactoStatusId);
 
 		if (contactoStatus == _nullContactoStatus) {
 			return null;
@@ -395,7 +395,7 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 				session = openSession();
 
 				contactoStatus = (ContactoStatus)session.get(ContactoStatusImpl.class,
-						Long.valueOf(contactStatusId));
+						Long.valueOf(contactoStatusId));
 			}
 			catch (Exception e) {
 				hasException = true;
@@ -408,7 +408,7 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 				}
 				else if (!hasException) {
 					EntityCacheUtil.putResult(ContactoStatusModelImpl.ENTITY_CACHE_ENABLED,
-						ContactoStatusImpl.class, contactStatusId,
+						ContactoStatusImpl.class, contactoStatusId,
 						_nullContactoStatus);
 				}
 
@@ -875,9 +875,9 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 					RowMapper.COUNT);
 		}
 
-		protected boolean contains(long contactStatusId, long contactId) {
+		protected boolean contains(long contactoStatusId, long contactoId) {
 			List<Integer> results = _mappingSqlQuery.execute(new Object[] {
-						new Long(contactStatusId), new Long(contactId)
+						new Long(contactoStatusId), new Long(contactoId)
 					});
 
 			if (results.size() > 0) {
@@ -896,9 +896,9 @@ public class ContactoStatusPersistenceImpl extends BasePersistenceImpl<ContactoS
 
 	private static final String _SQL_SELECT_CONTACTOSTATUS = "SELECT contactoStatus FROM ContactoStatus contactoStatus";
 	private static final String _SQL_COUNT_CONTACTOSTATUS = "SELECT COUNT(contactoStatus) FROM ContactoStatus contactoStatus";
-	private static final String _SQL_GETCONTACTOS = "SELECT {tbl_mpwc_contacts.*} FROM tbl_mpwc_contacts INNER JOIN tbl_mpwc_contactstatus ON (tbl_mpwc_contactstatus.contactStatusId = tbl_mpwc_contacts.contactStatusId) WHERE (tbl_mpwc_contactstatus.contactStatusId = ?)";
-	private static final String _SQL_GETCONTACTOSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_contacts WHERE contactStatusId = ?";
-	private static final String _SQL_CONTAINSCONTACTO = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_contacts WHERE contactStatusId = ? AND contactId = ?";
+	private static final String _SQL_GETCONTACTOS = "SELECT {tbl_mpwc_contacts.*} FROM tbl_mpwc_contacts INNER JOIN tbl_mpwc_contactstatus ON (tbl_mpwc_contactstatus.contactoStatusId = tbl_mpwc_contacts.contactoStatusId) WHERE (tbl_mpwc_contactstatus.contactoStatusId = ?)";
+	private static final String _SQL_GETCONTACTOSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_contacts WHERE contactoStatusId = ?";
+	private static final String _SQL_CONTAINSCONTACTO = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_contacts WHERE contactoStatusId = ? AND contactoId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "contactoStatus.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No ContactoStatus exists with the primary key ";
 	private static final boolean _HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE = GetterUtil.getBoolean(PropsUtil.get(

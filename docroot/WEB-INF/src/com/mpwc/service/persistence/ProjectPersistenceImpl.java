@@ -504,7 +504,7 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 		projectImpl.setComments(project.getComments());
 		projectImpl.setProjectStatusId(project.getProjectStatusId());
 		projectImpl.setWorkerId(project.getWorkerId());
-		projectImpl.setContactId(project.getContactId());
+		projectImpl.setContactoId(project.getContactoId());
 
 		return projectImpl;
 	}

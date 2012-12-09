@@ -146,7 +146,7 @@
 		<!-- FK fields -->
 		<column name="projectStatusId" type="long" />
 		<column name="workerId" type="long" /> <!-- project manager -->
-		<column name="contactId" type="long" /> <!-- contact (customer) -->
+		<column name="contactoId" type="long" /> <!-- contact (customer) -->
 		
 		<!-- Relation m:n  -->
         <column name="workerList" type="Collection" entity="Worker"  mapping-table="tbl_mpwc_worker_project" />
@@ -252,7 +252,7 @@
 
 		<!-- PK fields -->
 
-		<column name="contactId" type="long" primary="true" id-type="sequence" id-param="seq_contact_contactid"/>
+		<column name="contactoId" type="long" primary="true" id-type="sequence" id-param="seq_contact_contactid"/>
 		
 		<!-- Group instance --> 
 
@@ -281,14 +281,14 @@
 		<column name="comments" type="String" />
 
 		<!-- FK fields -->
-		<column name="contactStatusId" type="long" />
+		<column name="contactoStatusId" type="long" />
         
         <!-- Relation 1:n  -->
-        <column name="projectList" type="Collection" entity="Project"  mapping-key="contactId" /> 
+        <column name="projectList" type="Collection" entity="Project"  mapping-key="contactoId" /> 
 		
 		<!-- Order -->
 		<order by="asc">
-			<order-column name="contactId" />
+			<order-column name="contactoId" />
 		</order>
 
 		<!-- Finder methods -->
@@ -321,15 +321,15 @@
 	</entity>
 	
     <entity name="ContactoStatus" local-service="true" table="tbl_mpwc_contactstatus">
-        <column name="contactStatusId" type="long" primary="true"></column>
+        <column name="contactoStatusId" type="long" primary="true"></column>
         <column name="desc_en_US" type="String"></column>
         <column name="desc_es_ES" type="String"></column>
         <column name="desc_ca_ES" type="String"></column>
         <column
-		   name="contactStatus"
+		   name="contactoStatus"
 		   type="Collection"
 		   entity="Contacto"
-		   mapping-key="contactStatusId" />
+		   mapping-key="contactoStatusId" />
         
     </entity>
     

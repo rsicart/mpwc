@@ -284,14 +284,14 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Creates a new contacto with the primary key. Does not add the contacto to the database.
 	 *
-	 * @param contactId the primary key for the new contacto
+	 * @param contactoId the primary key for the new contacto
 	 * @return the new contacto
 	 */
-	public Contacto create(long contactId) {
+	public Contacto create(long contactoId) {
 		Contacto contacto = new ContactoImpl();
 
 		contacto.setNew(true);
-		contacto.setPrimaryKey(contactId);
+		contacto.setPrimaryKey(contactoId);
 
 		return contacto;
 	}
@@ -299,14 +299,14 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Removes the contacto with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param contactId the primary key of the contacto
+	 * @param contactoId the primary key of the contacto
 	 * @return the contacto that was removed
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto remove(long contactId)
+	public Contacto remove(long contactoId)
 		throws NoSuchContactoException, SystemException {
-		return remove(Long.valueOf(contactId));
+		return remove(Long.valueOf(contactoId));
 	}
 
 	/**
@@ -528,7 +528,7 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 		contactoImpl.setNew(contacto.isNew());
 		contactoImpl.setPrimaryKey(contacto.getPrimaryKey());
 
-		contactoImpl.setContactId(contacto.getContactId());
+		contactoImpl.setContactoId(contacto.getContactoId());
 		contactoImpl.setGroupId(contacto.getGroupId());
 		contactoImpl.setCompanyId(contacto.getCompanyId());
 		contactoImpl.setUserId(contacto.getUserId());
@@ -546,7 +546,7 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 		contactoImpl.setPhone(contacto.getPhone());
 		contactoImpl.setPhone2(contacto.getPhone2());
 		contactoImpl.setComments(contacto.getComments());
-		contactoImpl.setContactStatusId(contacto.getContactStatusId());
+		contactoImpl.setContactoStatusId(contacto.getContactoStatusId());
 
 		return contactoImpl;
 	}
@@ -568,22 +568,22 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contacto with the primary key or throws a {@link com.mpwc.NoSuchContactoException} if it could not be found.
 	 *
-	 * @param contactId the primary key of the contacto
+	 * @param contactoId the primary key of the contacto
 	 * @return the contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto findByPrimaryKey(long contactId)
+	public Contacto findByPrimaryKey(long contactoId)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = fetchByPrimaryKey(contactId);
+		Contacto contacto = fetchByPrimaryKey(contactoId);
 
 		if (contacto == null) {
 			if (_log.isWarnEnabled()) {
-				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + contactId);
+				_log.warn(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY + contactoId);
 			}
 
 			throw new NoSuchContactoException(_NO_SUCH_ENTITY_WITH_PRIMARY_KEY +
-				contactId);
+				contactoId);
 		}
 
 		return contacto;
@@ -605,13 +605,14 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contacto with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param contactId the primary key of the contacto
+	 * @param contactoId the primary key of the contacto
 	 * @return the contacto, or <code>null</code> if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto fetchByPrimaryKey(long contactId) throws SystemException {
+	public Contacto fetchByPrimaryKey(long contactoId)
+		throws SystemException {
 		Contacto contacto = (Contacto)EntityCacheUtil.getResult(ContactoModelImpl.ENTITY_CACHE_ENABLED,
-				ContactoImpl.class, contactId);
+				ContactoImpl.class, contactoId);
 
 		if (contacto == _nullContacto) {
 			return null;
@@ -626,7 +627,7 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 				session = openSession();
 
 				contacto = (Contacto)session.get(ContactoImpl.class,
-						Long.valueOf(contactId));
+						Long.valueOf(contactoId));
 			}
 			catch (Exception e) {
 				hasException = true;
@@ -639,7 +640,7 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 				}
 				else if (!hasException) {
 					EntityCacheUtil.putResult(ContactoModelImpl.ENTITY_CACHE_ENABLED,
-						ContactoImpl.class, contactId, _nullContacto);
+						ContactoImpl.class, contactoId, _nullContacto);
 				}
 
 				closeSession(session);
@@ -896,17 +897,17 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where ctype = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param ctype the ctype
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByCtype_PrevAndNext(long contactId, String ctype,
+	public Contacto[] findByCtype_PrevAndNext(long contactoId, String ctype,
 		OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -1297,17 +1298,17 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where nif = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param nif the nif
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByNif_PrevAndNext(long contactId, String nif,
+	public Contacto[] findByNif_PrevAndNext(long contactoId, String nif,
 		OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -1698,17 +1699,17 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where email = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param email the email
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByEmail_PrevAndNext(long contactId, String email,
+	public Contacto[] findByEmail_PrevAndNext(long contactoId, String email,
 		OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -2102,17 +2103,17 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where firmname = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param firmname the firmname
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByFirmname_PrevAndNext(long contactId,
+	public Contacto[] findByFirmname_PrevAndNext(long contactoId,
 		String firmname, OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -2505,17 +2506,17 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where zipcode = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param zipcode the zipcode
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next contacto
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByZipcode_PrevAndNext(long contactId, String zipcode,
-		OrderByComparator orderByComparator)
+	public Contacto[] findByZipcode_PrevAndNext(long contactoId,
+		String zipcode, OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -2943,7 +2944,7 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	/**
 	 * Returns the contactos before and after the current contacto in the ordered set where city = &#63; and country = &#63;.
 	 *
-	 * @param contactId the primary key of the current contacto
+	 * @param contactoId the primary key of the current contacto
 	 * @param city the city
 	 * @param country the country
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -2951,10 +2952,10 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	 * @throws com.mpwc.NoSuchContactoException if a contacto with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
-	public Contacto[] findByC_C_PrevAndNext(long contactId, String city,
+	public Contacto[] findByC_C_PrevAndNext(long contactoId, String city,
 		String country, OrderByComparator orderByComparator)
 		throws NoSuchContactoException, SystemException {
-		Contacto contacto = findByPrimaryKey(contactId);
+		Contacto contacto = findByPrimaryKey(contactoId);
 
 		Session session = null;
 
@@ -4052,9 +4053,9 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 					RowMapper.COUNT);
 		}
 
-		protected boolean contains(long contactId, long projectId) {
+		protected boolean contains(long contactoId, long projectId) {
 			List<Integer> results = _mappingSqlQuery.execute(new Object[] {
-						new Long(contactId), new Long(projectId)
+						new Long(contactoId), new Long(projectId)
 					});
 
 			if (results.size() > 0) {
@@ -4075,9 +4076,9 @@ public class ContactoPersistenceImpl extends BasePersistenceImpl<Contacto>
 	private static final String _SQL_SELECT_CONTACTO_WHERE = "SELECT contacto FROM Contacto contacto WHERE ";
 	private static final String _SQL_COUNT_CONTACTO = "SELECT COUNT(contacto) FROM Contacto contacto";
 	private static final String _SQL_COUNT_CONTACTO_WHERE = "SELECT COUNT(contacto) FROM Contacto contacto WHERE ";
-	private static final String _SQL_GETPROJECTS = "SELECT {tbl_mpwc_projects.*} FROM tbl_mpwc_projects INNER JOIN tbl_mpwc_contacts ON (tbl_mpwc_contacts.contactId = tbl_mpwc_projects.contactId) WHERE (tbl_mpwc_contacts.contactId = ?)";
-	private static final String _SQL_GETPROJECTSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_projects WHERE contactId = ?";
-	private static final String _SQL_CONTAINSPROJECT = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_projects WHERE contactId = ? AND projectId = ?";
+	private static final String _SQL_GETPROJECTS = "SELECT {tbl_mpwc_projects.*} FROM tbl_mpwc_projects INNER JOIN tbl_mpwc_contacts ON (tbl_mpwc_contacts.contactoId = tbl_mpwc_projects.contactoId) WHERE (tbl_mpwc_contacts.contactoId = ?)";
+	private static final String _SQL_GETPROJECTSSIZE = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_projects WHERE contactoId = ?";
+	private static final String _SQL_CONTAINSPROJECT = "SELECT COUNT(*) AS COUNT_VALUE FROM tbl_mpwc_projects WHERE contactoId = ? AND projectId = ?";
 	private static final String _FINDER_COLUMN_CTYPE_CTYPE_1 = "contacto.ctype IS NULL";
 	private static final String _FINDER_COLUMN_CTYPE_CTYPE_2 = "contacto.ctype = ?";
 	private static final String _FINDER_COLUMN_CTYPE_CTYPE_3 = "(contacto.ctype IS NULL OR contacto.ctype = ?)";

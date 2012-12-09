@@ -24,7 +24,6 @@ import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.UserLocalServiceUtil;
 import com.mpwc.NoSuchWorkerException;
 import com.mpwc.model.Contacto;
-import com.mpwc.model.Contacto;
 import com.mpwc.service.base.ContactoLocalServiceBaseImpl;
 
 /**
@@ -60,7 +59,7 @@ public class ContactoLocalServiceImpl extends ContactoLocalServiceBaseImpl {
 		c.setFirmname(contacto.getFirmname());
 		c.setPhone(contacto.getPhone());
 		c.setComments(contacto.getComments());
-		c.setContactStatusId(contacto.getContactStatusId());
+		c.setContactoStatusId(contacto.getContactoStatusId());
 		c.setCity(contacto.getCity());
 		c.setCountry(contacto.getCountry());
 		c.setAddress(contacto.getAddress());
@@ -74,9 +73,9 @@ public class ContactoLocalServiceImpl extends ContactoLocalServiceBaseImpl {
 		return contactoPersistence.update(c, false);
 	}
 	
-	public Contacto deleteContact(long contactId) throws NoSuchWorkerException, PortalException, SystemException {
-		Contacto w = contactoPersistence.findByPrimaryKey(contactId);	
-		return deleteContact(w);
+	public Contacto deleteContact(long contactoId) throws NoSuchWorkerException, PortalException, SystemException {
+		Contacto c = contactoPersistence.findByPrimaryKey(contactoId);	
+		return deleteContact(c);
 	}
 	
 	public Contacto deleteContact(Contacto contacto) throws SystemException {		

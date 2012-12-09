@@ -11,7 +11,7 @@
 	<import class="com.mpwc.model.Worker" />
 	<class name="com.mpwc.model.impl.ContactoImpl" table="tbl_mpwc_contacts">
 		<cache usage="read-write" />
-		<id name="contactId" type="long">
+		<id name="contactoId" type="long">
 			<generator class="sequence">
 				<param name="sequence">seq_contact_contactid</param>
 			</generator>
@@ -33,11 +33,11 @@
 		<property name="phone" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="phone2" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
-		<property name="contactStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contactoStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.mpwc.model.impl.ContactoStatusImpl" table="tbl_mpwc_contactstatus">
 		<cache usage="read-write" />
-		<id name="contactStatusId" type="long">
+		<id name="contactoStatusId" type="long">
 			<generator class="assigned" />
 		</id>
 		<property name="desc_en_US" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -67,7 +67,7 @@
 		<property name="comments" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="projectStatusId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		<property name="workerId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-		<property name="contactId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		<property name="contactoId" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 	</class>
 	<class name="com.mpwc.model.impl.ProjectStatusImpl" table="tbl_mpwc_projectstatus">
 		<cache usage="read-write" />

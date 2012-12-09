@@ -9,7 +9,7 @@
 	</persistence-unit-metadata>
 	<mapped-superclass class="com.mpwc.model.impl.ContactoModelImpl">
 		<attributes>
-			<id name="contactId" />
+			<id name="contactoId" />
 			<basic name="groupId" />
 			<basic name="companyId" />
 			<basic name="userId" />
@@ -31,7 +31,7 @@
 			<basic name="phone" />
 			<basic name="phone2" />
 			<basic name="comments" />
-			<basic name="contactStatusId" />
+			<basic name="contactoStatusId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -40,7 +40,7 @@
 	</mapped-superclass>
 	<mapped-superclass class="com.mpwc.model.impl.ContactoStatusModelImpl">
 		<attributes>
-			<id name="contactStatusId" />
+			<id name="contactoStatusId" />
 			<basic name="desc_en_US" />
 			<basic name="desc_es_ES" />
 			<basic name="desc_ca_ES" />
@@ -78,7 +78,7 @@
 			<basic name="comments" />
 			<basic name="projectStatusId" />
 			<basic name="workerId" />
-			<basic name="contactId" />
+			<basic name="contactoId" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

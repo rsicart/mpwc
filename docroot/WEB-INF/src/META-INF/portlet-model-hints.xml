@@ -2,7 +2,7 @@
 
 <model-hints>
 	<model name="com.mpwc.model.Contacto">
-		<field name="contactId" type="long" />
+		<field name="contactoId" type="long" />
 		<field name="groupId" type="long" />
 		<field name="companyId" type="long" />
 		<field name="userId" type="long" />
@@ -20,10 +20,10 @@
 		<field name="phone" type="String" />
 		<field name="phone2" type="String" />
 		<field name="comments" type="String" />
-		<field name="contactStatusId" type="long" />
+		<field name="contactoStatusId" type="long" />
 	</model>
 	<model name="com.mpwc.model.ContactoStatus">
-		<field name="contactStatusId" type="long" />
+		<field name="contactoStatusId" type="long" />
 		<field name="desc_en_US" type="String" />
 		<field name="desc_es_ES" type="String" />
 		<field name="desc_ca_ES" type="String" />
@@ -54,7 +54,7 @@
 		<field name="comments" type="String" />
 		<field name="projectStatusId" type="long" />
 		<field name="workerId" type="long" />
-		<field name="contactId" type="long" />
+		<field name="contactoId" type="long" />
 	</model>
 	<model name="com.mpwc.model.ProjectStatus">
 		<field name="projectStatusId" type="long" />
