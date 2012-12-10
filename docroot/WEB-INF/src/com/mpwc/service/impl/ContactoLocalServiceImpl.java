@@ -86,7 +86,7 @@ public class ContactoLocalServiceImpl extends ContactoLocalServiceBaseImpl {
 		return contactoPersistence.remove(contacto);
 	}
 	
-	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode) throws PortalException, SystemException {
-		return ContactoFinderUtil.getContactosByFilters(desc, nif, firmname, email, phone, city, country, address, zipcode);
+	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode, String ctype) throws PortalException, SystemException {
+		return ContactoFinderUtil.getContactosByFilters(desc, nif, firmname, email, phone, city, country, address, zipcode, ctype);
 	}
 }

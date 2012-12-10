@@ -35,7 +35,8 @@
 				(c.city LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(c.country LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
 				(c.address LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
-				(c.zipcode LIKE ? [$AND_OR_NULL_CHECK$] )		
+				(c.zipcode LIKE ? [$AND_OR_NULL_CHECK$] ) [$AND_OR_CONNECTOR$]
+				(c.ctype LIKE ? [$AND_OR_NULL_CHECK$] )		
 		]]>
 	</sql>
 	

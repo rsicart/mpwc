@@ -78,7 +78,7 @@ public class ContactoFinderImpl extends BasePersistenceImpl implements ContactoF
 		 }
 	}
 	
-	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode) throws SystemException {
+	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode, String ctype) throws SystemException {
 		 Session session = null;
 		 try {
 			 session = openSession();
@@ -109,6 +109,8 @@ public class ContactoFinderImpl extends BasePersistenceImpl implements ContactoF
 			 qPos.add(address);
 			 qPos.add("%"+zipcode+"%");
 			 qPos.add(zipcode);
+			 qPos.add("%"+ctype+"%");
+			 qPos.add(ctype);
 			 System.out.println("ContactoFinderImpl getContactosByFilters sql"+ sql.toString() +" *** qPos ->"+ qPos.toString() );
 			 return (List)query.list();
 		 } catch (Exception e) {
