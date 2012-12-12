@@ -16,11 +16,13 @@ package com.mpwc.service.impl;
 
 import java.util.List;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.model.ResourceConstants;
 import com.mpwc.NoSuchWorkerException;
 import com.mpwc.model.Contacto;
+import com.mpwc.model.Project;
 import com.mpwc.service.base.ContactoLocalServiceBaseImpl;
 import com.mpwc.service.persistence.ContactoFinderUtil;
 
@@ -88,5 +90,9 @@ public class ContactoLocalServiceImpl extends ContactoLocalServiceBaseImpl {
 	
 	public List<Contacto> getContactosByFilters(String desc, String nif, String firmname, String email, String phone, String city, String country, String address, String zipcode, String ctype) throws PortalException, SystemException {
 		return ContactoFinderUtil.getContactosByFilters(desc, nif, firmname, email, phone, city, country, address, zipcode, ctype);
+	}
+	
+	public List<Project> getProjects(long contactoId) throws SystemException {
+			return contactoPersistence.getProjects(contactoId);
 	}
 }
