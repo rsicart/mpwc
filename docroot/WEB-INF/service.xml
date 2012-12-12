@@ -179,6 +179,10 @@
         <finder name="CompanyId" return-type="Collection">
             <finder-column name="companyId"></finder-column>
         </finder>
+        
+        <finder name="ContactoId" return-type="Collection">
+            <finder-column name="contactoId"></finder-column>
+        </finder>
 		
 	</entity>
 	

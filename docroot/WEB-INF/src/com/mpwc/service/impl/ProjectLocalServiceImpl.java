@@ -208,4 +208,9 @@ public class ProjectLocalServiceImpl extends ProjectLocalServiceBaseImpl {
 		}
 		return tb.getTimeboxId();
 	}
+	
+	public List<Project> findByContactoId(long contactoId) throws SystemException {
+		return projectPersistence.findByContactoId(contactoId);
+	}	
+	
 }

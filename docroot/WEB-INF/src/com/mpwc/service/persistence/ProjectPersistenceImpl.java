@@ -166,6 +166,26 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] { Long.class.getName() });
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CONTACTOID =
+		new FinderPath(ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByContactoId",
+			new String[] {
+				Long.class.getName(),
+				
+			"java.lang.Integer", "java.lang.Integer",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONTACTOID =
+		new FinderPath(ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByContactoId",
+			new String[] { Long.class.getName() },
+			ProjectModelImpl.CONTACTOID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_CONTACTOID = new FinderPath(ProjectModelImpl.ENTITY_CACHE_ENABLED,
+			ProjectModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByContactoId",
+			new String[] { Long.class.getName() });
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_ALL = new FinderPath(ProjectModelImpl.ENTITY_CACHE_ENABLED,
 			ProjectModelImpl.FINDER_CACHE_ENABLED, ProjectImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0]);
@@ -467,6 +487,27 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_COMPANYID,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_COMPANYID,
+					args);
+			}
+
+			if ((projectModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONTACTOID.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						Long.valueOf(projectModelImpl.getOriginalContactoId())
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONTACTOID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONTACTOID,
+					args);
+
+				args = new Object[] {
+						Long.valueOf(projectModelImpl.getContactoId())
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CONTACTOID,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONTACTOID,
 					args);
 			}
 		}
@@ -2224,6 +2265,386 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 	}
 
 	/**
+	 * Returns all the projects where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @return the matching projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Project> findByContactoId(long contactoId)
+		throws SystemException {
+		return findByContactoId(contactoId, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the projects where contactoId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param contactoId the contacto ID
+	 * @param start the lower bound of the range of projects
+	 * @param end the upper bound of the range of projects (not inclusive)
+	 * @return the range of matching projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Project> findByContactoId(long contactoId, int start, int end)
+		throws SystemException {
+		return findByContactoId(contactoId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the projects where contactoId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set.
+	 * </p>
+	 *
+	 * @param contactoId the contacto ID
+	 * @param start the lower bound of the range of projects
+	 * @param end the upper bound of the range of projects (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public List<Project> findByContactoId(long contactoId, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CONTACTOID;
+			finderArgs = new Object[] { contactoId };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CONTACTOID;
+			finderArgs = new Object[] { contactoId, start, end, orderByComparator };
+		}
+
+		List<Project> list = (List<Project>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (Project project : list) {
+				if ((contactoId != project.getContactoId())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(3 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(3);
+			}
+
+			query.append(_SQL_SELECT_PROJECT_WHERE);
+
+			query.append(_FINDER_COLUMN_CONTACTOID_CONTACTOID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+
+			else {
+				query.append(ProjectModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(contactoId);
+
+				list = (List<Project>)QueryUtil.list(q, getDialect(), start, end);
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (list == null) {
+					FinderCacheUtil.removeResult(finderPath, finderArgs);
+				}
+				else {
+					cacheResult(list);
+
+					FinderCacheUtil.putResult(finderPath, finderArgs, list);
+				}
+
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first project in the ordered set where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project
+	 * @throws com.mpwc.NoSuchProjectException if a matching project could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Project findByContactoId_First(long contactoId,
+		OrderByComparator orderByComparator)
+		throws NoSuchProjectException, SystemException {
+		Project project = fetchByContactoId_First(contactoId, orderByComparator);
+
+		if (project != null) {
+			return project;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("contactoId=");
+		msg.append(contactoId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchProjectException(msg.toString());
+	}
+
+	/**
+	 * Returns the first project in the ordered set where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching project, or <code>null</code> if a matching project could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Project fetchByContactoId_First(long contactoId,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<Project> list = findByContactoId(contactoId, 0, 1,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last project in the ordered set where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project
+	 * @throws com.mpwc.NoSuchProjectException if a matching project could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Project findByContactoId_Last(long contactoId,
+		OrderByComparator orderByComparator)
+		throws NoSuchProjectException, SystemException {
+		Project project = fetchByContactoId_Last(contactoId, orderByComparator);
+
+		if (project != null) {
+			return project;
+		}
+
+		StringBundler msg = new StringBundler(4);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("contactoId=");
+		msg.append(contactoId);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchProjectException(msg.toString());
+	}
+
+	/**
+	 * Returns the last project in the ordered set where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching project, or <code>null</code> if a matching project could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Project fetchByContactoId_Last(long contactoId,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByContactoId(contactoId);
+
+		List<Project> list = findByContactoId(contactoId, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the projects before and after the current project in the ordered set where contactoId = &#63;.
+	 *
+	 * @param projectId the primary key of the current project
+	 * @param contactoId the contacto ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next project
+	 * @throws com.mpwc.NoSuchProjectException if a project with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	public Project[] findByContactoId_PrevAndNext(long projectId,
+		long contactoId, OrderByComparator orderByComparator)
+		throws NoSuchProjectException, SystemException {
+		Project project = findByPrimaryKey(projectId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Project[] array = new ProjectImpl[3];
+
+			array[0] = getByContactoId_PrevAndNext(session, project,
+					contactoId, orderByComparator, true);
+
+			array[1] = project;
+
+			array[2] = getByContactoId_PrevAndNext(session, project,
+					contactoId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Project getByContactoId_PrevAndNext(Session session,
+		Project project, long contactoId, OrderByComparator orderByComparator,
+		boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_PROJECT_WHERE);
+
+		query.append(_FINDER_COLUMN_CONTACTOID_CONTACTOID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+
+		else {
+			query.append(ProjectModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(contactoId);
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(project);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<Project> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
 	 * Returns all the projects.
 	 *
 	 * @return the projects
@@ -2385,6 +2806,18 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 	 */
 	public void removeByCompanyId(long companyId) throws SystemException {
 		for (Project project : findByCompanyId(companyId)) {
+			remove(project);
+		}
+	}
+
+	/**
+	 * Removes all the projects where contactoId = &#63; from the database.
+	 *
+	 * @param contactoId the contacto ID
+	 * @throws SystemException if a system exception occurred
+	 */
+	public void removeByContactoId(long contactoId) throws SystemException {
+		for (Project project : findByContactoId(contactoId)) {
 			remove(project);
 		}
 	}
@@ -2639,6 +3072,59 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 				}
 
 				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_COMPANYID,
+					finderArgs, count);
+
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of projects where contactoId = &#63;.
+	 *
+	 * @param contactoId the contacto ID
+	 * @return the number of matching projects
+	 * @throws SystemException if a system exception occurred
+	 */
+	public int countByContactoId(long contactoId) throws SystemException {
+		Object[] finderArgs = new Object[] { contactoId };
+
+		Long count = (Long)FinderCacheUtil.getResult(FINDER_PATH_COUNT_BY_CONTACTOID,
+				finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_PROJECT_WHERE);
+
+			query.append(_FINDER_COLUMN_CONTACTOID_CONTACTOID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(contactoId);
+
+				count = (Long)q.uniqueResult();
+			}
+			catch (Exception e) {
+				throw processException(e);
+			}
+			finally {
+				if (count == null) {
+					count = Long.valueOf(0);
+				}
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CONTACTOID,
 					finderArgs, count);
 
 				closeSession(session);
@@ -3659,6 +4145,7 @@ public class ProjectPersistenceImpl extends BasePersistenceImpl<Project>
 	private static final String _FINDER_COLUMN_G_TYPE_TYPE_3 = "(project.type IS NULL OR project.type = ?)";
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 = "project.groupId = ?";
 	private static final String _FINDER_COLUMN_COMPANYID_COMPANYID_2 = "project.companyId = ?";
+	private static final String _FINDER_COLUMN_CONTACTOID_CONTACTOID_2 = "project.contactoId = ?";
 	private static final String _ORDER_BY_ENTITY_ALIAS = "project.";
 	private static final String _NO_SUCH_ENTITY_WITH_PRIMARY_KEY = "No Project exists with the primary key ";
 	private static final String _NO_SUCH_ENTITY_WITH_KEY = "No Project exists with the key {";
